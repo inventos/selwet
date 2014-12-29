@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'selwet'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.summary     = "Selenium Web Test"
   s.authors     = ["Motin Artem"]
   s.email       = 'a.motin@inventos.ru'
