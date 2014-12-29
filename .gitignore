@@ -1,1 +1,3 @@
 .yardoc/
+build.sh
+*.gem

@@ -1002,6 +1002,38 @@ class Unit < Test::Unit::TestCase
       threads.each(&:join)
       return true
     end
+#Получить заголовок окна.
+#@return Hash ключ - имя браузера, аргумент - title.
+#@example
+#       class SelWeT::Unit
+#   
+#          setBrowsers [:firefox, :chrome]
+#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          @@somePage = 'http://www.example.com'
+#   
+#          context "Example" do
+#     
+#            should 'TODO somethin' do
+#              ...
+#              titles = Unit.getTitle
+#              ... 
+    def getTitle
+      threads = []
+      status = true
+      @@driver.each do |name, driver|
+        threads << Thread.new do
+          Thread.current["name"] = name
+          Thread.current["title"] = driver.title
+        end
+      end
+      threads.each(&:join)
+      titles = {}
+      threads.each do |i|
+        titles[i["name"]] = i["title"]
+      end
+      return titles
+    end
+    
   end
    
 end

@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Motin Artem"]
   s.email       = 'a.motin@inventos.ru'
   s.files       = ["lib/selwet.rb"]
+  s.description   = ["Gem for creating web tests"]
   s.license       = 'MIT'
   s.require_paths = ["lib"]
   s.add_development_dependency "selenium-webdriver", '~> 2.44'
