@@ -1,3 +1,4 @@
 .yardoc/
 build.sh
 *.gem
+Gemfile.lock
