@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.summary     = "Selenium Web Test"
   s.authors     = ["Motin Artem"]
   s.email       = 'a.motin@inventos.ru'
+  s.homepage    = 'https://github.com/inventos/selwet.git' 
   s.files       = ["lib/selwet.rb"]
   s.description   = ["Gem for creating web tests"]
   s.license       = 'MIT'
