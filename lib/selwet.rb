@@ -305,7 +305,7 @@ class Unit < Test::Unit::TestCase
 #     
 #            should "TODO something" do
 #              ...
-#              Unit.click 'input[type="submit"]'
+#              status, error = Unit.click 'input[type="submit"]'
 #           ...
 #@see alert_ok
 #@see alert_cancel
@@ -314,22 +314,22 @@ class Unit < Test::Unit::TestCase
       status = true
       @@driver.each do |name, driver|
         if browserName.nil? or name == browserName.to_s
-        threads << Thread.new do
-          begin
-            element = driver.find_element(:css => selector)
-            wait = Selenium::WebDriver::Wait.new(:timeout => 15)
-            wait.until { driver.find_element(:css => selector).displayed? }
-            driver.action.move_to(element).perform
-            element.click
-          rescue Exception => e
-            status = false
+          threads << Thread.new do
+            begin
+              element = driver.find_element(:css => selector)
+              wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+              wait.until { driver.find_element(:css => selector).displayed? }
+              driver.action.move_to(element).perform
+              element.click
+            rescue Exception => e
+              status = false
+            end
           end
         end
       end
-      end
       threads.each(&:join)
       if status
-        return true
+        return [true, ""]
       else
         return [false, "click: Bad selector : #{selector}"]
       end
@@ -906,9 +906,9 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should 'TODO something' do
-#              Unit.openInNewTab 'a.someclass'
+#              Unit.in_new_window 'a.someclass'
 #              ...
-#              Unit.switchToWindow 0
+#              Unit.switch_to_window 0
 #              Unit.close_window 1
 #              ... 
 #@see in_new_window
@@ -943,8 +943,8 @@ class Unit < Test::Unit::TestCase
 #            should 'TODO somethin' do
 #              Unit.close_window 2
 #              ... 
-#@see openInNewTab
-#@see switchToWindow
+#@see in_new_window
+#@see switch_to_window
     def close_window num
       threads = []
       status = true
@@ -983,10 +983,10 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should 'TODO somethin' do
-#              Unit.hoverOverElement "div.menu"
+#              Unit.hover_over_element "div.menu"
 #              Unit.click "a.some_url"
 #              ... 
-    def hoverOverElement selector
+    def hover_over_element selector
       status, message = check_element selector
       unless status
         return [false, message]

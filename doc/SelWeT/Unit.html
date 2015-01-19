@@ -479,7 +479,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#hoverOverElement-class_method" title="hoverOverElement (class method)">+ ([Boolean,String]) <strong>hoverOverElement</strong>(selector) </a>
+      <a href="#hover_over_element-class_method" title="hover_over_element (class method)">+ ([Boolean,String]) <strong>hover_over_element</strong>(selector) </a>
     
 
     
@@ -1713,7 +1713,7 @@ setup.</p>
 
      should &quot;TODO something&quot; do
        ...
-       Unit.click &#39;input[type=&quot;submit&quot;]&#39;
+       status, error = Unit.click &#39;input[type=&quot;submit&quot;]&#39;
     ...</code></pre>
     
   </div>
@@ -1826,22 +1826,22 @@ setup.</p>
   <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_browserName'>browserName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_browserName'>browserName</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='kw'>begin</span>
-        <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_wait'>wait</span> <span class='op'>=</span> <span class='const'>Selenium</span><span class='op'>::</span><span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:timeout</span> <span class='op'>=&gt;</span> <span class='int'>15</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_wait'>wait</span><span class='period'>.</span><span class='id identifier rubyid_until'>until</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_displayed?'>displayed?</span> <span class='rbrace'>}</span>
-        <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span>
-        <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_click'>click</span>
-      <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
+      <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+        <span class='kw'>begin</span>
+          <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_wait'>wait</span> <span class='op'>=</span> <span class='const'>Selenium</span><span class='op'>::</span><span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:timeout</span> <span class='op'>=&gt;</span> <span class='int'>15</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_wait'>wait</span><span class='period'>.</span><span class='id identifier rubyid_until'>until</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_displayed?'>displayed?</span> <span class='rbrace'>}</span>
+          <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span>
+          <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_click'>click</span>
+        <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+          <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
+        <span class='kw'>end</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
-  <span class='kw'>end</span>
   <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
-    <span class='kw'>return</span> <span class='kw'>true</span>
+    <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='kw'>else</span>
     <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>click: Bad selector : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
@@ -1933,9 +1933,9 @@ setup.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li>openInNewTab</li>
+      <li><span class='object_link'><a href="#in_new_window-class_method" title="SelWeT::Unit.in_new_window (method)">in_new_window</a></span></li>
     
-      <li>switchToWindow</li>
+      <li><span class='object_link'><a href="#switch_to_window-class_method" title="SelWeT::Unit.switch_to_window (method)">switch_to_window</a></span></li>
     
   </ul>
 
@@ -2675,9 +2675,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="hoverOverElement-class_method">
+  <h3 class="signature " id="hover_over_element-class_method">
   
-    + (<tt>[Boolean,String]</tt>) <strong>hoverOverElement</strong>(selector) 
+    + (<tt>[Boolean,String]</tt>) <strong>hover_over_element</strong>(selector) 
   
 
   
@@ -2706,7 +2706,7 @@ should или setup.</p>
    context &quot;Example&quot; do
 
      should &#39;TODO somethin&#39; do
-       Unit.hoverOverElement &quot;div.menu&quot;
+       Unit.hover_over_element &quot;div.menu&quot;
        Unit.click &quot;a.some_url&quot;
        ... </code></pre>
     
@@ -2777,7 +2777,7 @@ should или setup.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 989</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_hoverOverElement'>hoverOverElement</span> <span class='id identifier rubyid_selector'>selector</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_hover_over_element'>hover_over_element</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
     <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span>
@@ -4044,9 +4044,9 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
    context &quot;Example&quot; do
 
      should &#39;TODO something&#39; do
-       Unit.openInNewTab &#39;a.someclass&#39;
+       Unit.in_new_window &#39;a.someclass&#39;
        ...
-       Unit.switchToWindow 0
+       Unit.switch_to_window 0
        Unit.close_window 1
        ... </code></pre>
     
@@ -4463,7 +4463,7 @@ setup.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jan 19 11:53:32 2015 by
+  Generated on Mon Jan 19 12:22:32 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.2.0).
 </div>
