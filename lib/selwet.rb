@@ -15,14 +15,14 @@ module SelWeT
 # 
 #        class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://127.0.0.1:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://127.0.0.1:4444/wd/hub'
 #   
 #          context "Example" do
 #            should "About Us" do
-#              Unit.followTheLink "http://inventos.ru/"
+#              Unit.go_to "http://inventos.ru/"
 #              Unit.click '#menu-item-3795 a'
-#              status, error = Unit.checkLocation 'http://inventos.ru/about/#top'
+#              status, error = Unit.check_location 'http://inventos.ru/about/#top'
 #              assert_equal true, status, error
 #            end
 #          end
@@ -70,7 +70,7 @@ class Unit < Test::Unit::TestCase
         exit 1
       end
       if @@start_url
-        followTheLink @@start_url
+        go_to @@start_url
       end
     end 
 #Закрывает все используемые браузеры после выполнения всех тестов.
@@ -90,30 +90,30 @@ class Unit < Test::Unit::TestCase
 #@param url [String] URL запущенного Selenium Server
 #@example
 #       class SelWeT::Unit
-#               setBrowsers [:firefox, :chrome]
-#               setSeleniumServerUrl "http://localhost:4444/wd/hub"
+#               set_browsers [:firefox, :chrome]
+#               set_selenium_server_url "http://localhost:4444/wd/hub"
 #               ...
-    def setSeleniumServerUrl url 
+    def set_selenium_server_url url 
       @@url_selenium = url
     end
 #Устанавливает стартовую страницу при запуске браузеров. Использовать только перед блоками тестов.
 #@param url [String] URL тестируемого сайта
 #@example
 #       class SelWeT::Unit
-#               setBrowsers [:firefox, :chrome]
-#               setSeleniumServerUrl "http://localhost:4444/wd/hub"
-#               openLink "http://inventos.ru/"
+#               set_browsers [:firefox, :chrome]
+#               set_selenium_server_url "http://localhost:4444/wd/hub"
+#               open_link "http://inventos.ru/"
 #               ...
-    def openLink url
+    def open_link url
       @@start_url = url
     end
 #Устанавливает используемые для тестирования браузеры. Необходимо использовать перед блоками тестов.
 #@param params [Array] массив, содержащий одно или несколько из следующий значений: :firefox, :chrome, :ie, :safari. Для :chrome и :ie Selenium Server следует запускать с соответствующими драйверами.
 #@example
 #       class SelWeT::Unit
-#               setBrowsers [:firefox, :chrome]
+#               set_browsers [:firefox, :chrome]
 #               ...
-    def setBrowsers params 
+    def set_browsers params 
       @@browsers = params
     end
 #Переход по ссылке. Используется только в блоках should или setup
@@ -121,18 +121,18 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://inventos.ru/produkty/#top'
 #   
 #          context "Example" do
 #     
 #            setup do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #            end
 #          ...
 #@see refresh
-    def followTheLink url
+    def go_to url
       threads = []
       @@driver.each do |name, driver|
         threads << Thread.new do
@@ -141,7 +141,7 @@ class Unit < Test::Unit::TestCase
       end
       threads.each(&:join)
     end
-#Переключиться на iframe. Используется только в блоках should или setup. Для дальнейшего взаимодействия с основной страницей необходимо выполнить {switchToPage}.
+#Переключиться на iframe. Используется только в блоках should или setup. Для дальнейшего взаимодействия с основной страницей необходимо выполнить {to_page}.
 #@param selector [String] css селектор на нужный iframe.
 #@example
 #       class SelWeT::Unit
@@ -151,14 +151,14 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should 'Show popup' do
-#              Unit.switchToFrame 'iframe#frame1'
+#              Unit.to_frame 'iframe#frame1'
 #          ...
-#@see switchToPage
-    def switchToFrame selector
+#@see to_page
+    def to_frame selector
       threads = []
-      status, message, tags = getTag selector
+      status, message, tags = get_tag selector
       unless status
-        return false, "switchToFrame: "+message
+        return false, "to_frame: "+message
       end
       bad_values = []
       tags.each do |name, tag|
@@ -167,7 +167,7 @@ class Unit < Test::Unit::TestCase
         end
       end
       if bad_values.size != 0
-        return false, "switchToFrame: #{bad_values.join(", ")} - It is not 'iframe'! "
+        return false, "to_frame: #{bad_values.join(", ")} - It is not 'iframe'! "
       end
       @@driver.each do |name, driver|
         threads << Thread.new do
@@ -189,9 +189,9 @@ class Unit < Test::Unit::TestCase
 #     
 #            should 'Do something' do
 #              ...
-#              Unit.clearCache
+#              Unit.clear_cache
 #          ...
-  def clearCache
+  def clear_cache
     threads = []
     @@driver.each do |name, driver|
       threads << Thread.new do
@@ -210,10 +210,10 @@ class Unit < Test::Unit::TestCase
 #     
 #            should 'Show popup' do
 #              ...
-#              Unit.switchToPage
+#              Unit.to_page
 #          ...
-#@see switchToFrame
-    def switchToPage
+#@see to_frame
+    def to_page
       threads = []
       @@driver.each do |name, driver|
         threads << Thread.new do
@@ -233,9 +233,9 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should "TODO something" do
-#              Unit.selectItemsFromTheSelect 'select[name="some_name"]', ['value 1', 'value2']
+#              Unit.set_select_items 'select[name="some_name"]', ['value 1', 'value2']
 #          ...    
-    def selectItemsFromTheSelect selector, items = nil
+    def set_select_items selector, items = nil
         threads = []
         status = true
         errors = []
@@ -252,7 +252,7 @@ class Unit < Test::Unit::TestCase
             if thread_status
               unless element.tag_name == 'select'
                 status = false
-                errors << "#{name} - selectItemsFromTheSelect using only for select!"
+                errors << "#{name} - set_select_items using only for select!"
               else
                 option = Selenium::WebDriver::Support::Select.new(element)
                 if option.multiple?
@@ -267,7 +267,7 @@ class Unit < Test::Unit::TestCase
                     end
                     if items.size > 0
                       status = false
-                      errors << "selectItemsFromTheSelect: Some passed option values were not found (#{name}): "+items.join(' ')
+                      errors << "set_select_items: Some passed option values were not found (#{name}): "+items.join(' ')
                     end
                   end
                 else
@@ -277,11 +277,11 @@ class Unit < Test::Unit::TestCase
                         option.select_by(:text, items[0])
                       rescue
                         status = false
-                        errors << "selectItemsFromTheSelect: Option '#{items}' does not exist!"
+                        errors << "set_select_items: Option '#{items}' does not exist!"
                       end
                     else
                       status = false
-                      errors << "selectItemsFromTheSelect: '#{selector}' is not multiple! You must pass a single value."
+                      errors << "set_select_items: '#{selector}' is not multiple! You must pass a single value."
                     end
                   end
                 end
@@ -307,8 +307,8 @@ class Unit < Test::Unit::TestCase
 #              ...
 #              Unit.click 'input[type="submit"]'
 #           ...
-#@see clickOkOnTheAlert
-#@see clickCancelOnTheAlert
+#@see alert_ok
+#@see alert_cancel
     def click selector, browserName = nil
       threads = []
       status = true
@@ -323,16 +323,15 @@ class Unit < Test::Unit::TestCase
             element.click
           rescue Exception => e
             status = false
-            puts 'click: '+name+' : Bad selector : '+selector
           end
         end
       end
       end
       threads.each(&:join)
       if status
-        return status
+        return true
       else
-        return [status, "click: Bad selector : #{selector}"]
+        return [false, "click: Bad selector : #{selector}"]
       end
     end
 #Кликает на кнопку 'Ok' в окне алерта. Используется только в блоках should или setup.
@@ -346,11 +345,11 @@ class Unit < Test::Unit::TestCase
 #     
 #            should "TODO something" do
 #              ...
-#              Unit.clickOkOnTheAlert
+#              Unit.alert_ok
 #          ...
 #@see click
-#@see clickCancelOnTheAlert    
-    def clickOkOnTheAlert
+#@see alert_cancel    
+    def alert_ok
       status = true
       error = nil
       threads = []
@@ -360,7 +359,7 @@ class Unit < Test::Unit::TestCase
             driver.switch_to.alert.accept
           rescue
             status = false
-            error = 'clickOkOnTheAlert: No alert!'
+            error = 'alert_ok: No alert!'
           end
         end
       end
@@ -372,19 +371,19 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://inventos.ru/produkty/#top'
 #   
 #          context "Example" do
 #     
 #            should "TODO something" do
 #              ...
-#              Unit.clickOkOnTheAlert
+#              Unit.alert_cancel
 #          ...
 #@see click
-#@see clickOkOnTheAlert      
-    def clickCancelOnTheAlert
+#@see alert_ok      
+    def alert_cancel
       status = true
       error = nil
       threads = []
@@ -393,7 +392,7 @@ class Unit < Test::Unit::TestCase
           begin
             driver.switch_to.alert.dismiss
           rescue
-            puts 'clickOkOnTheAlert: No alert!'
+            puts 'alert_ok: No alert!'
           end
         end
       end
@@ -407,8 +406,8 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://inventos.ru/produkty/#top'
 #   
 #          context "Example" do
@@ -418,7 +417,7 @@ class Unit < Test::Unit::TestCase
 #              status, error, data = Unit.checkElement 'a.toolbar', true
 #          ...   
 #@see checkElements
-    def checkElement selector, link = nil
+    def check_element selector, link = nil
       result = [true, "", []]
       threads = []
       data = {}
@@ -474,30 +473,30 @@ class Unit < Test::Unit::TestCase
       result[2] = data
       return result
     end
-#Проверяет наличие элементов. Используется только в блоках should или setup. Возвращает первым аргументом статус выполнения операции (Boolean), вторым - сообщение об ошибке, если она возникнет (String), третьим - текст, содержащийся в элементах ([Hash, Hash, ...]). Хеши имеют ту же структуру, что и в {checkElement}.
+#Проверяет наличие элементов. Используется только в блоках should или setup. Возвращает первым аргументом статус выполнения операции (Boolean), вторым - сообщение об ошибке, если она возникнет (String), третьим - текст, содержащийся в элементах ([Hash, Hash, ...]). Хеши имеют ту же структуру, что и в {check_element}.
 # @param selectors [Array] массив css селекторов элементов.
 # @param link [Boolean] параметр, позволяющий получить значение поля href. Работает только для ссылок.
 #@return [[Boolean, String, [Hash, Hash,...]]]
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://inventos.ru/produkty/#top'
 #   
 #          context "Example" do
 #     
 #            should "TODO something" do
-#              status, error, data = Unit.checkElements ['input#email','input#password','a']
+#              status, error, data = Unit.check_elements ['input#email','input#password','a']
 #              #Получим количество ссылок
 #              a_num = data[2]["firefox"].size
 #          ...   
-#@see checkElement   
-    def checkElements selectors, link = nil
+#@see check_element   
+    def check_elements selectors, link = nil
       result = [true, "", []]
       return [false, "Argument 'selectors' must be Array!", []] unless selectors.class == Array
       selectors.each do |selector|
-        status, message, data = checkElement(selector, link)
+        status, message, data = check_element(selector, link)
         unless status
           result[1] = (result[1].empty? ? message+"\n" : result[1]+message+"\n")
         end
@@ -520,7 +519,7 @@ class Unit < Test::Unit::TestCase
 #            should "TODO something" do
 #              Unit.refresh
 #          ...      
-#@see followTheLink
+#@see go_to
     def refresh
       threads = []
       @@driver.each_value do |driver|
@@ -541,15 +540,15 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should 'TODO something' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
-#              status, message, tags = Unit.getTag '#some_id'
+#              status, message, tags = Unit.get_tag '#some_id'
 #          ...
-    def getTag selector
+    def get_tag selector
       threads = []
       tags = {}
-      status, message = checkElement selector
-      return [false, "getTag: "+message] unless status
+      status, message = check_element selector
+      return [false, "get_tag: "+message] unless status
       @@driver.each do |name, driver|
         threads << Thread.new do
           tags[name] = driver.find_element(:css => selector).tag_name
@@ -571,23 +570,23 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should 'TODO something' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
-#              status, error = Unit.fillTheField 'input#some_id', 'some text' #заполнить текстовое поле
-#              status, error = Unit.fillTheField 'input#[type={"file"}]', 'C:\\path\to\file' #выбрать файл для загрузки
+#              status, error = Unit.fill 'input#some_id', 'some text' #заполнить текстовое поле
+#              status, error = Unit.fill 'input#[type={"file"}]', 'C:\\path\to\file' #выбрать файл для загрузки
 #          ...
-#@see followTheLink
-#@see postForm
-    def fillTheField selector, value, postfix = nil
+#@see go_to
+#@see post_form
+    def fill selector, value, postfix = nil
       result = [true, ""]
       threads = []
-      status, message, data = checkElement selector 
+      status, message, data = check_element selector 
       unless status
         return [false, message]
       end
       data.each_value do |i|
         if i.size>1
-          return [false, "fillTheField: Element with selector #{selector} not uniq!"]
+          return [false, "fill: Element with selector #{selector} not uniq!"]
         end
       end
       @@driver.each do |name, driver|
@@ -616,15 +615,15 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should 'TODO something' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
-#              status, check = Unit.getStatus 'input[type="checkbox"]'
+#              status, check = Unit.get_status 'input[type="checkbox"]'
 #          ...
-    def getStatus selector
+    def get_status selector
       threads = []
-      status, message, data = checkfElement selector
-      return [false, 'getStatus: Element not uniq!'] if data.values[0].size>1
-      return [false, "getStatus: "+message, tag] unless status
+      status, message, data = check_element selector
+      return [false, 'get_status: Element not uniq!'] if data.values[0].size>1
+      return [false, "get_status: "+message, tag] unless status
       status = true
       @@driver.each do |name, driver|
         threads << Thread.new do
@@ -657,31 +656,31 @@ class Unit < Test::Unit::TestCase
 #         context "Example" do
 #     
 #           should "Successfull authorization" do
-#             status, error = Unit.postForm ".form", {'#email' => 'admin@example.ru', '#password' => 'admin', '.checkbox' => :click, '.submit'=>:submit}
+#             status, error = Unit.post_form ".form", {'#email' => 'admin@example.ru', '#password' => 'admin', '.checkbox' => :click, '.submit'=>:submit}
 #         ...
 #@see click
-#@see fillTheField
-    def postForm selector, fields = nil
+#@see fill
+    def post_form selector, fields = nil
       result = [true, ""]
       fields = {} if fields.nil?
-      status, message, data = checkElement selector
+      status, message, data = check_element selector
       unless status
         return [false, message]
       end
       data.each do |key, value|
         if value.size>1
-          return [false, "postForm: (#{key}) Found more than one form with selector '#{selector}'"] 
+          return [false, "post_form: (#{key}) Found more than one form with selector '#{selector}'"] 
         end
       end
       check_elements = ''
       fields.keys.each do |key|
-        status, message, data = checkElement key
+        status, message, data = check_element key
         unless status
           check_elements = (check_elements.empty? ? message+' : '+key+"\n" : check_elements+message+' : '+key+"\n")
         end
         data.each do |browser, value|
           if value.size>1
-            check_elements = (check_elements.empty? ? "postForm:(#{browser}) Element of form not uniq : "+key+"\n" : check_elements+"postForm:(#{browser}) Element of form not uniq : "+key+"\n")
+            check_elements = (check_elements.empty? ? "post_form:(#{browser}) Element of form not uniq : "+key+"\n" : check_elements+"post_form:(#{browser}) Element of form not uniq : "+key+"\n")
           end
         end
       end
@@ -700,7 +699,7 @@ class Unit < Test::Unit::TestCase
           end
         end
       end
-      return [false, 'postForm: Bad args was passed: '+bad_args.to_s] unless bad_args.empty?
+      return [false, 'post_form: Bad args was passed: '+bad_args.to_s] unless bad_args.empty?
       fields.each do |key, value|
         if value == :click
           click key
@@ -709,7 +708,7 @@ class Unit < Test::Unit::TestCase
           submit_button = key
         end
         if value.class == Array
-          status, error = selectItemsFromTheSelect(key, value)
+          status, error = set_select_items(key, value)
           return [false, error] unless status
         end          
       end
@@ -741,7 +740,7 @@ class Unit < Test::Unit::TestCase
         end
       end
       threads.each(&:join)
-      return [false, 'postForm: For "select" you must pass array with selected values!'] if errors
+      return [false, 'post_form: For "select" you must pass array with selected values!'] if errors
       click submit_button unless !submit_button
       return result
     end
@@ -751,20 +750,20 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
 #     
 #            should 'Correct link' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
-#              status, error = Unit.checkLocation 'http://www.example.com/other_page'
+#              status, error = Unit.check_location 'http://www.example.com/other_page'
 #          ...
-#@see followTheLink
-#@see getLocation
-    def checkLocation url
+#@see go_to
+#@see get_location
+    def check_location url
       result = [true, ""]
       threads = []
       @@driver.each do |name, driver|
@@ -791,20 +790,20 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
 #     
 #            should 'Correct link' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
-#              location = Unit.getLocation
+#              location = Unit.get_location
 #          ...
-#@see checkLocation
-#@see followTheLink
-    def getLocation
+#@see check_location
+#@see go_to
+    def get_location
       result = {}
       threads = []
       @@driver.each do |name, driver|
@@ -824,14 +823,14 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
 #     
 #            should 'Make screenshot' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
 #              Unit.screenshot 'TestScreenshot'
 #              ... 
@@ -850,23 +849,23 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
 #     
 #            should 'TODO somethin' do
-#              Unit.followTheLink @@somePage
+#              Unit.go_to @@somePage
 #              ...
-#              Unit.openInNewWindow 'a.someclass'
+#              Unit.in_new_window 'a.someclass'
 #              ... 
 #@see switchToWindow
-#@see closeWindow
-    def openInNewWindow selector
+#@see close_window
+    def in_new_window selector
       threads = []
       not_opened = false
-      status, message = checkElement selector
+      status, message = check_element selector
       unless status
         return [false, message]
       end
@@ -900,8 +899,8 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
@@ -910,11 +909,11 @@ class Unit < Test::Unit::TestCase
 #              Unit.openInNewTab 'a.someclass'
 #              ...
 #              Unit.switchToWindow 0
-#              Unit.closeWindow 1
+#              Unit.close_window 1
 #              ... 
-#@see openInNewWindow
-#@see closeWindow
-    def switchToWindow num
+#@see in_new_window
+#@see close_window
+    def switch_to_window num
       threads = []
       status = true
       @@driver.each do |name, driver|
@@ -935,18 +934,18 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
 #     
 #            should 'TODO somethin' do
-#              Unit.closeWindow 2
+#              Unit.close_window 2
 #              ... 
 #@see openInNewTab
 #@see switchToWindow
-    def closeWindow num
+    def close_window num
       threads = []
       status = true
       @@driver.each do |name, driver|
@@ -977,8 +976,8 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
@@ -988,7 +987,7 @@ class Unit < Test::Unit::TestCase
 #              Unit.click "a.some_url"
 #              ... 
     def hoverOverElement selector
-      status, message = checkElement selector
+      status, message = check_element selector
       unless status
         return [false, message]
       end
@@ -1007,17 +1006,17 @@ class Unit < Test::Unit::TestCase
 #@example
 #       class SelWeT::Unit
 #   
-#          setBrowsers [:firefox, :chrome]
-#          setSeleniumServerUrl 'http://localhost:4444/wd/hub'
+#          set_browsers [:firefox, :chrome]
+#          set_selenium_server_url 'http://localhost:4444/wd/hub'
 #          @@somePage = 'http://www.example.com'
 #   
 #          context "Example" do
 #     
 #            should 'TODO somethin' do
 #              ...
-#              titles = Unit.getTitle
+#              titles = Unit.window_title
 #              ... 
-    def getTitle
+    def window_title
       threads = []
       status = true
       @@driver.each do |name, driver|
