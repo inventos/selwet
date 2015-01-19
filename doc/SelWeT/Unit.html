@@ -132,14 +132,14 @@ select-ов и форм, указания файлов для загрузки, 
 
 <span class='kw'>class</span> <span class='const'>SelWeT</span><span class='op'>::</span><span class='const'>Unit</span>
 
-  <span class='id identifier rubyid_setBrowsers'>setBrowsers</span> <span class='lbracket'>[</span><span class='symbol'>:firefox</span><span class='comma'>,</span> <span class='symbol'>:chrome</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_setSeleniumServerUrl'>setSeleniumServerUrl</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://127.0.0.1:4444/wd/hub</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_set_browsers'>set_browsers</span> <span class='lbracket'>[</span><span class='symbol'>:firefox</span><span class='comma'>,</span> <span class='symbol'>:chrome</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_set_selenium_server_url'>set_selenium_server_url</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://127.0.0.1:4444/wd/hub</span><span class='tstring_end'>&#39;</span></span>
 
   <span class='id identifier rubyid_context'>context</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Example</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
     <span class='id identifier rubyid_should'>should</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>About Us</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
-      <span class='const'>Unit</span><span class='period'>.</span><span class='id identifier rubyid_followTheLink'>followTheLink</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://inventos.ru/</span><span class='tstring_end'>&quot;</span></span>
+      <span class='const'>Unit</span><span class='period'>.</span><span class='id identifier rubyid_go_to'>go_to</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://inventos.ru/</span><span class='tstring_end'>&quot;</span></span>
       <span class='const'>Unit</span><span class='period'>.</span><span class='id identifier rubyid_click'>click</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#menu-item-3795 a</span><span class='tstring_end'>&#39;</span></span>
-      <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='const'>Unit</span><span class='period'>.</span><span class='id identifier rubyid_checkLocation'>checkLocation</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://inventos.ru/about/#top</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='const'>Unit</span><span class='period'>.</span><span class='id identifier rubyid_check_location'>check_location</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://inventos.ru/about/#top</span><span class='tstring_end'>&#39;</span></span>
       <span class='id identifier rubyid_assert_equal'>assert_equal</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
@@ -167,7 +167,55 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#checkElement-class_method" title="checkElement (class method)">+ ([Boolean, String, Hash]) <strong>checkElement</strong>(selector, link = nil) </a>
+      <a href="#alert_cancel-class_method" title="alert_cancel (class method)">+ ([Boolean,String]) <strong>alert_cancel</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Кликает на кнопку &#39;Cancel&#39; в окне алерта.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#alert_ok-class_method" title="alert_ok (class method)">+ ([Boolean,String]) <strong>alert_ok</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Кликает на кнопку &#39;Ok&#39; в окне алерта.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_element-class_method" title="check_element (class method)">+ ([Boolean, String, Hash]) <strong>check_element</strong>(selector, link = nil) </a>
     
 
     
@@ -191,7 +239,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#checkElements-class_method" title="checkElements (class method)">+ ([Boolean, String, [Hash, Hash,...]]) <strong>checkElements</strong>(selectors, link = nil) </a>
+      <a href="#check_elements-class_method" title="check_elements (class method)">+ ([Boolean, String, [Hash, Hash,...]]) <strong>check_elements</strong>(selectors, link = nil) </a>
     
 
     
@@ -215,7 +263,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#checkLocation-class_method" title="checkLocation (class method)">+ ([Boolean,String]) <strong>checkLocation</strong>(url) </a>
+      <a href="#check_location-class_method" title="check_location (class method)">+ ([Boolean,String]) <strong>check_location</strong>(url) </a>
     
 
     
@@ -239,7 +287,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#clearCache-class_method" title="clearCache (class method)">+ (Object) <strong>clearCache</strong> </a>
+      <a href="#clear_cache-class_method" title="clear_cache (class method)">+ (Object) <strong>clear_cache</strong> </a>
     
 
     
@@ -287,55 +335,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#clickCancelOnTheAlert-class_method" title="clickCancelOnTheAlert (class method)">+ ([Boolean,String]) <strong>clickCancelOnTheAlert</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Кликает на кнопку &#39;Cancel&#39; в окне алерта.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#clickOkOnTheAlert-class_method" title="clickOkOnTheAlert (class method)">+ ([Boolean,String]) <strong>clickOkOnTheAlert</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Кликает на кнопку &#39;Ok&#39; в окне алерта.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#closeWindow-class_method" title="closeWindow (class method)">+ ([Boolean,String]) <strong>closeWindow</strong>(num) </a>
+      <a href="#close_window-class_method" title="close_window (class method)">+ ([Boolean,String]) <strong>close_window</strong>(num) </a>
     
 
     
@@ -359,7 +359,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fillTheField-class_method" title="fillTheField (class method)">+ ([Boolean,String]) <strong>fillTheField</strong>(selector, value, postfix = nil) </a>
+      <a href="#fill-class_method" title="fill (class method)">+ ([Boolean,String]) <strong>fill</strong>(selector, value, postfix = nil) </a>
     
 
     
@@ -383,31 +383,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#followTheLink-class_method" title="followTheLink (class method)">+ (Object) <strong>followTheLink</strong>(url) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Переход по ссылке.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#getLocation-class_method" title="getLocation (class method)">+ (Hash) <strong>getLocation</strong> </a>
+      <a href="#get_location-class_method" title="get_location (class method)">+ (Hash) <strong>get_location</strong> </a>
     
 
     
@@ -431,7 +407,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#getStatus-class_method" title="getStatus (class method)">+ ([Boolean,String/Hash] первый аргумент - статус выполнения, ...) <strong>getStatus</strong>(selector) </a>
+      <a href="#get_status-class_method" title="get_status (class method)">+ ([Boolean,String/Hash] первый аргумент - статус выполнения, ...) <strong>get_status</strong>(selector) </a>
     
 
     
@@ -455,7 +431,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#getTag-class_method" title="getTag (class method)">+ ([Boolean, String, Hash]) <strong>getTag</strong>(selector) </a>
+      <a href="#get_tag-class_method" title="get_tag (class method)">+ ([Boolean, String, Hash]) <strong>get_tag</strong>(selector) </a>
     
 
     
@@ -479,7 +455,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#getTitle-class_method" title="getTitle (class method)">+ (Object) <strong>getTitle</strong> </a>
+      <a href="#go_to-class_method" title="go_to (class method)">+ (Object) <strong>go_to</strong>(url) </a>
     
 
     
@@ -494,7 +470,7 @@ select-ов и форм, указания файлов для загрузки, 
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Получить заголовок окна.</p>
+<p>Переход по ссылке.</p>
 </div></span>
   
 </li>
@@ -527,7 +503,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#openInNewWindow-class_method" title="openInNewWindow (class method)">+ ([Boolean,String]) <strong>openInNewWindow</strong>(selector) </a>
+      <a href="#in_new_window-class_method" title="in_new_window (class method)">+ ([Boolean,String]) <strong>in_new_window</strong>(selector) </a>
     
 
     
@@ -551,7 +527,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#openLink-class_method" title="openLink (class method)">+ (Object) <strong>openLink</strong>(url) </a>
+      <a href="#open_link-class_method" title="open_link (class method)">+ (Object) <strong>open_link</strong>(url) </a>
     
 
     
@@ -575,7 +551,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#postForm-class_method" title="postForm (class method)">+ ([Boolean,String]) <strong>postForm</strong>(selector, fields = nil) </a>
+      <a href="#post_form-class_method" title="post_form (class method)">+ ([Boolean,String]) <strong>post_form</strong>(selector, fields = nil) </a>
     
 
     
@@ -647,31 +623,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#selectItemsFromTheSelect-class_method" title="selectItemsFromTheSelect (class method)">+ (Object) <strong>selectItemsFromTheSelect</strong>(selector, items = nil) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Выбирает элементы в select.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#setBrowsers-class_method" title="setBrowsers (class method)">+ (Object) <strong>setBrowsers</strong>(params) </a>
+      <a href="#set_browsers-class_method" title="set_browsers (class method)">+ (Object) <strong>set_browsers</strong>(params) </a>
     
 
     
@@ -695,7 +647,31 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#setSeleniumServerUrl-class_method" title="setSeleniumServerUrl (class method)">+ (Object) <strong>setSeleniumServerUrl</strong>(url) </a>
+      <a href="#set_select_items-class_method" title="set_select_items (class method)">+ (Object) <strong>set_select_items</strong>(selector, items = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Выбирает элементы в select.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_selenium_server_url-class_method" title="set_selenium_server_url (class method)">+ (Object) <strong>set_selenium_server_url</strong>(url) </a>
     
 
     
@@ -767,7 +743,31 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#switchToFrame-class_method" title="switchToFrame (class method)">+ (Object) <strong>switchToFrame</strong>(selector) </a>
+      <a href="#switch_to_window-class_method" title="switch_to_window (class method)">+ ([Boolean,String]) <strong>switch_to_window</strong>(num) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Переключиться на другое окно.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_frame-class_method" title="to_frame (class method)">+ (Object) <strong>to_frame</strong>(selector) </a>
     
 
     
@@ -791,7 +791,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#switchToPage-class_method" title="switchToPage (class method)">+ (Object) <strong>switchToPage</strong> </a>
+      <a href="#to_page-class_method" title="to_page (class method)">+ (Object) <strong>to_page</strong> </a>
     
 
     
@@ -815,7 +815,7 @@ select-ов и форм, указания файлов для загрузки, 
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#switchToWindow-class_method" title="switchToWindow (class method)">+ ([Boolean,String]) <strong>switchToWindow</strong>(num) </a>
+      <a href="#window_title-class_method" title="window_title (class method)">+ (Object) <strong>window_title</strong> </a>
     
 
     
@@ -830,7 +830,7 @@ select-ов и форм, указания файлов для загрузки, 
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Переключиться на другое окно.</p>
+<p>Получить заголовок окна.</p>
 </div></span>
   
 </li>
@@ -853,9 +853,239 @@ select-ов и форм, указания файлов для загрузки, 
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="checkElement-class_method">
+  <h3 class="signature first" id="alert_cancel-class_method">
   
-    + (<tt>[Boolean, String, Hash]</tt>) <strong>checkElement</strong>(selector, link = nil) 
+    + (<tt>[Boolean,String]</tt>) <strong>alert_cancel</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Кликает на кнопку &#39;Cancel&#39; в окне алерта. Используется только в
+блоках should или setup.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>class SelWeT::Unit
+
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
+   @@somePage = &#39;http://inventos.ru/produkty/#top&#39;
+
+   context &quot;Example&quot; do
+
+     should &quot;TODO something&quot; do
+       ...
+       Unit.alert_cancel
+   ...</code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>[Boolean,String]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Первый аргумент - статус выполнения, второй - текст сообщения об ошибке,
+если она возникнет</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#click-class_method" title="SelWeT::Unit.click (method)">click</a></span></li>
+    
+      <li><span class='object_link'><a href="#alert_ok-class_method" title="SelWeT::Unit.alert_ok (method)">alert_ok</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 386</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_alert_cancel'>alert_cancel</span>
+  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
+    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+      <span class='kw'>begin</span>
+        <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_alert'>alert</span><span class='period'>.</span><span class='id identifier rubyid_dismiss'>dismiss</span>
+      <span class='kw'>rescue</span>
+        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>alert_ok: No alert!</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="alert_ok-class_method">
+  
+    + (<tt>[Boolean,String]</tt>) <strong>alert_ok</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Кликает на кнопку &#39;Ok&#39; в окне алерта. Используется только в блоках
+should или setup.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>class SelWeT::Unit
+
+   ...
+
+   context &quot;Example&quot; do
+
+     should &quot;TODO something&quot; do
+       ...
+       Unit.alert_ok
+   ...</code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>[Boolean,String]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Первый аргумент - статус выполнения, второй - текст сообщения об ошибке,
+если она возникнет</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#click-class_method" title="SelWeT::Unit.click (method)">click</a></span></li>
+    
+      <li><span class='object_link'><a href="#alert_cancel-class_method" title="SelWeT::Unit.alert_cancel (method)">alert_cancel</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 352</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_alert_ok'>alert_ok</span>
+  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
+    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+      <span class='kw'>begin</span>
+        <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_alert'>alert</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span>
+      <span class='kw'>rescue</span>
+        <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
+        <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>alert_ok: No alert!</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_element-class_method">
+  
+    + (<tt>[Boolean, String, Hash]</tt>) <strong>check_element</strong>(selector, link = nil) 
   
 
   
@@ -885,8 +1115,8 @@ select-ов и форм, указания файлов для загрузки, 
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://inventos.ru/produkty/#top&#39;
 
    context &quot;Example&quot; do
@@ -954,7 +1184,7 @@ select-ов и форм, указания файлов для загрузки, 
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#checkElements-class_method" title="SelWeT::Unit.checkElements (method)">checkElements</a></span></li>
+      <li>checkElements</li>
     
   </ul>
 
@@ -964,6 +1194,7 @@ select-ов и форм, указания файлов для загрузки, 
       <pre class="lines">
 
 
+420
 421
 422
 423
@@ -1018,13 +1249,12 @@ select-ов и форм, указания файлов для загрузки, 
 472
 473
 474
-475
-476</pre>
+475</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 421</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 420</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1086,9 +1316,9 @@ select-ов и форм, указания файлов для загрузки, 
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="checkElements-class_method">
+  <h3 class="signature " id="check_elements-class_method">
   
-    + (<tt>[Boolean, String, [Hash, Hash,...]]</tt>) <strong>checkElements</strong>(selectors, link = nil) 
+    + (<tt>[Boolean, String, [Hash, Hash,...]]</tt>) <strong>check_elements</strong>(selectors, link = nil) 
   
 
   
@@ -1101,7 +1331,7 @@ select-ов и форм, указания файлов для загрузки, 
 Возвращает первым аргументом статус выполнения операции (Boolean), вторым -
 сообщение об ошибке, если она возникнет (String), третьим - текст,
 содержащийся в элементах ([Hash, Hash, …]). Хеши имеют ту же структуру, что
-и в <span class='object_link'><a href="#checkElement-class_method" title="SelWeT::Unit.checkElement (method)">checkElement</a></span>.</p>
+и в <span class='object_link'><a href="#check_element-class_method" title="SelWeT::Unit.check_element (method)">check_element</a></span>.</p>
 
 
   </div>
@@ -1114,14 +1344,14 @@ select-ов и форм, указания файлов для загрузки, 
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://inventos.ru/produkty/#top&#39;
 
    context &quot;Example&quot; do
 
      should &quot;TODO something&quot; do
-       status, error, data = Unit.checkElements [&#39;input#email&#39;,&#39;input#password&#39;,&#39;a&#39;]
+       status, error, data = Unit.check_elements [&#39;input#email&#39;,&#39;input#password&#39;,&#39;a&#39;]
        #Получим количество ссылок
        a_num = data[2][&quot;firefox&quot;].size
    ...   </code></pre>
@@ -1184,7 +1414,7 @@ select-ов и форм, указания файлов для загрузки, 
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#checkElement-class_method" title="SelWeT::Unit.checkElement (method)">checkElement</a></span></li>
+      <li><span class='object_link'><a href="#check_element-class_method" title="SelWeT::Unit.check_element (method)">check_element</a></span></li>
     
   </ul>
 
@@ -1194,6 +1424,7 @@ select-ов и форм, указания файлов для загрузки, 
       <pre class="lines">
 
 
+495
 496
 497
 498
@@ -1207,17 +1438,16 @@ select-ов и форм, указания файлов для загрузки, 
 506
 507
 508
-509
-510</pre>
+509</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 496</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 495</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_checkElements'>checkElements</span> <span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_check_elements'>check_elements</span> <span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument &#39;selectors&#39; must be Array!</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selectors'>selectors</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Array</span>
   <span class='id identifier rubyid_selectors'>selectors</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_selector'>selector</span><span class='op'>|</span>
-    <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span><span class='lparen'>(</span><span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span><span class='lparen'>(</span><span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span><span class='rparen'>)</span>
     <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
       <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='id identifier rubyid_message'>message</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -1234,9 +1464,9 @@ select-ов и форм, указания файлов для загрузки, 
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="checkLocation-class_method">
+  <h3 class="signature " id="check_location-class_method">
   
-    + (<tt>[Boolean,String]</tt>) <strong>checkLocation</strong>(url) 
+    + (<tt>[Boolean,String]</tt>) <strong>check_location</strong>(url) 
   
 
   
@@ -1259,16 +1489,16 @@ setup.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
 
      should &#39;Correct link&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
-       status, error = Unit.checkLocation &#39;http://www.example.com/other_page&#39;
+       status, error = Unit.check_location &#39;http://www.example.com/other_page&#39;
    ...</code></pre>
     
   </div>
@@ -1316,9 +1546,9 @@ setup.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#followTheLink-class_method" title="SelWeT::Unit.followTheLink (method)">followTheLink</a></span></li>
+      <li><span class='object_link'><a href="#go_to-class_method" title="SelWeT::Unit.go_to (method)">go_to</a></span></li>
     
-      <li><span class='object_link'><a href="#getLocation-class_method" title="SelWeT::Unit.getLocation (method)">getLocation</a></span></li>
+      <li><span class='object_link'><a href="#get_location-class_method" title="SelWeT::Unit.get_location (method)">get_location</a></span></li>
     
   </ul>
 
@@ -1328,6 +1558,7 @@ setup.</p>
       <pre class="lines">
 
 
+766
 767
 768
 769
@@ -1348,13 +1579,12 @@ setup.</p>
 784
 785
 786
-787
-788</pre>
+787</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 767</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 766</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_checkLocation'>checkLocation</span> <span class='id identifier rubyid_url'>url</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_check_location'>check_location</span> <span class='id identifier rubyid_url'>url</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
@@ -1382,9 +1612,9 @@ setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="clearCache-class_method">
+  <h3 class="signature " id="clear_cache-class_method">
   
-    + (<tt>Object</tt>) <strong>clearCache</strong> 
+    + (<tt>Object</tt>) <strong>clear_cache</strong> 
   
 
   
@@ -1412,7 +1642,7 @@ setup.</p>
 
      should &#39;Do something&#39; do
        ...
-       Unit.clearCache
+       Unit.clear_cache
    ...</code></pre>
     
   </div>
@@ -1437,7 +1667,7 @@ setup.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 194</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_clearCache'>clearCache</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_cache'>clear_cache</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
     <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
@@ -1550,9 +1780,9 @@ setup.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#clickOkOnTheAlert-class_method" title="SelWeT::Unit.clickOkOnTheAlert (method)">clickOkOnTheAlert</a></span></li>
+      <li><span class='object_link'><a href="#alert_ok-class_method" title="SelWeT::Unit.alert_ok (method)">alert_ok</a></span></li>
     
-      <li><span class='object_link'><a href="#clickCancelOnTheAlert-class_method" title="SelWeT::Unit.clickCancelOnTheAlert (method)">clickCancelOnTheAlert</a></span></li>
+      <li><span class='object_link'><a href="#alert_cancel-class_method" title="SelWeT::Unit.alert_cancel (method)">alert_cancel</a></span></li>
     
   </ul>
 
@@ -1586,8 +1816,7 @@ setup.</p>
 333
 334
 335
-336
-337</pre>
+336</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 312</span>
@@ -1606,16 +1835,15 @@ setup.</p>
         <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_click'>click</span>
       <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
         <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>click: </span><span class='tstring_end'>&#39;</span></span><span class='op'>+</span><span class='id identifier rubyid_name'>name</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> : Bad selector : </span><span class='tstring_end'>&#39;</span></span><span class='op'>+</span><span class='id identifier rubyid_selector'>selector</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
   <span class='kw'>else</span>
-    <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>click: Bad selector : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+    <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>click: Bad selector : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1624,239 +1852,9 @@ setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="clickCancelOnTheAlert-class_method">
+  <h3 class="signature " id="close_window-class_method">
   
-    + (<tt>[Boolean,String]</tt>) <strong>clickCancelOnTheAlert</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Кликает на кнопку &#39;Cancel&#39; в окне алерта. Используется только в
-блоках should или setup.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code>class SelWeT::Unit
-
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
-   @@somePage = &#39;http://inventos.ru/produkty/#top&#39;
-
-   context &quot;Example&quot; do
-
-     should &quot;TODO something&quot; do
-       ...
-       Unit.clickOkOnTheAlert
-   ...</code></pre>
-    
-  </div>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>[Boolean,String]</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Первый аргумент - статус выполнения, второй - текст сообщения об ошибке,
-если она возникнет</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#click-class_method" title="SelWeT::Unit.click (method)">click</a></span></li>
-    
-      <li><span class='object_link'><a href="#clickOkOnTheAlert-class_method" title="SelWeT::Unit.clickOkOnTheAlert (method)">clickOkOnTheAlert</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 387</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_clickCancelOnTheAlert'>clickCancelOnTheAlert</span>
-  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
-    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='kw'>begin</span>
-        <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_alert'>alert</span><span class='period'>.</span><span class='id identifier rubyid_dismiss'>dismiss</span>
-      <span class='kw'>rescue</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>clickOkOnTheAlert: No alert!</span><span class='tstring_end'>&#39;</span></span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="clickOkOnTheAlert-class_method">
-  
-    + (<tt>[Boolean,String]</tt>) <strong>clickOkOnTheAlert</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Кликает на кнопку &#39;Ok&#39; в окне алерта. Используется только в блоках
-should или setup.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code>class SelWeT::Unit
-
-   ...
-
-   context &quot;Example&quot; do
-
-     should &quot;TODO something&quot; do
-       ...
-       Unit.clickOkOnTheAlert
-   ...</code></pre>
-    
-  </div>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>[Boolean,String]</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Первый аргумент - статус выполнения, второй - текст сообщения об ошибке,
-если она возникнет</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#click-class_method" title="SelWeT::Unit.click (method)">click</a></span></li>
-    
-      <li><span class='object_link'><a href="#clickCancelOnTheAlert-class_method" title="SelWeT::Unit.clickCancelOnTheAlert (method)">clickCancelOnTheAlert</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 353</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_clickOkOnTheAlert'>clickOkOnTheAlert</span>
-  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
-    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='kw'>begin</span>
-        <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_alert'>alert</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span>
-      <span class='kw'>rescue</span>
-        <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
-        <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>clickOkOnTheAlert: No alert!</span><span class='tstring_end'>&#39;</span></span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="closeWindow-class_method">
-  
-    + (<tt>[Boolean,String]</tt>) <strong>closeWindow</strong>(num) 
+    + (<tt>[Boolean,String]</tt>) <strong>close_window</strong>(num) 
   
 
   
@@ -1880,14 +1878,14 @@ should или setup.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
 
      should &#39;TODO somethin&#39; do
-       Unit.closeWindow 2
+       Unit.close_window 2
        ... </code></pre>
     
   </div>
@@ -1937,7 +1935,7 @@ should или setup.</p>
     
       <li>openInNewTab</li>
     
-      <li><span class='object_link'><a href="#switchToWindow-class_method" title="SelWeT::Unit.switchToWindow (method)">switchToWindow</a></span></li>
+      <li>switchToWindow</li>
     
   </ul>
 
@@ -1947,6 +1945,7 @@ should или setup.</p>
       <pre class="lines">
 
 
+948
 949
 950
 951
@@ -1970,13 +1969,12 @@ should или setup.</p>
 969
 970
 971
-972
-973</pre>
+972</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 949</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 948</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_closeWindow'>closeWindow</span> <span class='id identifier rubyid_num'>num</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_close_window'>close_window</span> <span class='id identifier rubyid_num'>num</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
@@ -2007,9 +2005,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="fillTheField-class_method">
+  <h3 class="signature " id="fill-class_method">
   
-    + (<tt>[Boolean,String]</tt>) <strong>fillTheField</strong>(selector, value, postfix = nil) 
+    + (<tt>[Boolean,String]</tt>) <strong>fill</strong>(selector, value, postfix = nil) 
   
 
   
@@ -2037,10 +2035,10 @@ should или setup.</p>
    context &quot;Example&quot; do
 
      should &#39;TODO something&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
-       status, error = Unit.fillTheField &#39;input#some_id&#39;, &#39;some text&#39; #заполнить текстовое поле
-       status, error = Unit.fillTheField &#39;input#[type={&quot;file&quot;}]&#39;, &#39;C:\\path\to\file&#39; #выбрать файл для загрузки
+       status, error = Unit.fill &#39;input#some_id&#39;, &#39;some text&#39; #заполнить текстовое поле
+       status, error = Unit.fill &#39;input#[type={&quot;file&quot;}]&#39;, &#39;C:\\path\to\file&#39; #выбрать файл для загрузки
    ...</code></pre>
     
   </div>
@@ -2124,9 +2122,9 @@ value добавляется &#39;_имя_браузера&#39;.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#followTheLink-class_method" title="SelWeT::Unit.followTheLink (method)">followTheLink</a></span></li>
+      <li><span class='object_link'><a href="#go_to-class_method" title="SelWeT::Unit.go_to (method)">go_to</a></span></li>
     
-      <li><span class='object_link'><a href="#postForm-class_method" title="SelWeT::Unit.postForm (method)">postForm</a></span></li>
+      <li><span class='object_link'><a href="#post_form-class_method" title="SelWeT::Unit.post_form (method)">post_form</a></span></li>
     
   </ul>
 
@@ -2136,6 +2134,7 @@ value добавляется &#39;_имя_браузера&#39;.</p>
       <pre class="lines">
 
 
+580
 581
 582
 583
@@ -2161,22 +2160,21 @@ value добавляется &#39;_имя_браузера&#39;.</p>
 603
 604
 605
-606
-607</pre>
+606</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 581</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 580</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_fillTheField'>fillTheField</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_postfix'>postfix</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_fill'>fill</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_postfix'>postfix</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_selector'>selector</span> 
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span> 
   <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
     <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='op'>&gt;</span><span class='int'>1</span>
-      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fillTheField: Element with selector </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'> not uniq!</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fill: Element with selector </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'> not uniq!</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
@@ -2200,108 +2198,9 @@ value добавляется &#39;_имя_браузера&#39;.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="followTheLink-class_method">
+  <h3 class="signature " id="get_location-class_method">
   
-    + (<tt>Object</tt>) <strong>followTheLink</strong>(url) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Переход по ссылке. Используется только в блоках should или setup</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code>class SelWeT::Unit
-
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
-   @@somePage = &#39;http://inventos.ru/produkty/#top&#39;
-
-   context &quot;Example&quot; do
-
-     setup do
-       Unit.followTheLink @@somePage
-     end
-   ...</code></pre>
-    
-  </div>
-<p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>url</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>ссылка, по которой необходимо перейти.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#refresh-class_method" title="SelWeT::Unit.refresh (method)">refresh</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-135
-136
-137
-138
-139
-140
-141
-142
-143</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 135</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_followTheLink'>followTheLink</span> <span class='id identifier rubyid_url'>url</span>
-  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
-    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_navigate'>navigate</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_url'>url</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="getLocation-class_method">
-  
-    + (<tt>Hash</tt>) <strong>getLocation</strong> 
+    + (<tt>Hash</tt>) <strong>get_location</strong> 
   
 
   
@@ -2323,16 +2222,16 @@ value добавляется &#39;_имя_браузера&#39;.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
 
      should &#39;Correct link&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
-       location = Unit.getLocation
+       location = Unit.get_location
    ...</code></pre>
     
   </div>
@@ -2359,9 +2258,9 @@ value добавляется &#39;_имя_браузера&#39;.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#checkLocation-class_method" title="SelWeT::Unit.checkLocation (method)">checkLocation</a></span></li>
+      <li><span class='object_link'><a href="#check_location-class_method" title="SelWeT::Unit.check_location (method)">check_location</a></span></li>
     
-      <li><span class='object_link'><a href="#followTheLink-class_method" title="SelWeT::Unit.followTheLink (method)">followTheLink</a></span></li>
+      <li><span class='object_link'><a href="#go_to-class_method" title="SelWeT::Unit.go_to (method)">go_to</a></span></li>
     
   </ul>
 
@@ -2371,6 +2270,7 @@ value добавляется &#39;_имя_браузера&#39;.</p>
       <pre class="lines">
 
 
+806
 807
 808
 809
@@ -2384,13 +2284,12 @@ value добавляется &#39;_имя_браузера&#39;.</p>
 817
 818
 819
-820
-821</pre>
+820</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 807</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 806</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_getLocation'>getLocation</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_location'>get_location</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
@@ -2411,9 +2310,9 @@ value добавляется &#39;_имя_браузера&#39;.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="getStatus-class_method">
+  <h3 class="signature " id="get_status-class_method">
   
-    + (<tt>[Boolean,String/Hash] первый аргумент - статус выполнения</tt>, ...) <strong>getStatus</strong>(selector) 
+    + (<tt>[Boolean,String/Hash] первый аргумент - статус выполнения</tt>, ...) <strong>get_status</strong>(selector) 
   
 
   
@@ -2441,9 +2340,9 @@ should или setup.</p>
    context &quot;Example&quot; do
 
      should &#39;TODO something&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
-       status, check = Unit.getStatus &#39;input[type=&quot;checkbox&quot;]&#39;
+       status, check = Unit.get_status &#39;input[type=&quot;checkbox&quot;]&#39;
    ...</code></pre>
     
   </div>
@@ -2498,6 +2397,7 @@ should или setup.</p>
       <pre class="lines">
 
 
+622
 623
 624
 625
@@ -2521,17 +2421,16 @@ should или setup.</p>
 643
 644
 645
-646
-647</pre>
+646</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 623</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 622</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_getStatus'>getStatus</span> <span class='id identifier rubyid_selector'>selector</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_status'>get_status</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_checkfElement'>checkfElement</span> <span class='id identifier rubyid_selector'>selector</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>getStatus: Element not uniq!</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='op'>&gt;</span><span class='int'>1</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>getStatus: </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>get_status: Element not uniq!</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='op'>&gt;</span><span class='int'>1</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_status: </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
   <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
     <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
@@ -2558,9 +2457,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="getTag-class_method">
+  <h3 class="signature " id="get_tag-class_method">
   
-    + (<tt>[Boolean, String, Hash]</tt>) <strong>getTag</strong>(selector) 
+    + (<tt>[Boolean, String, Hash]</tt>) <strong>get_tag</strong>(selector) 
   
 
   
@@ -2588,9 +2487,9 @@ should или setup.</p>
    context &quot;Example&quot; do
 
      should &#39;TODO something&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
-       status, message, tags = Unit.getTag &#39;#some_id&#39;
+       status, message, tags = Unit.get_tag &#39;#some_id&#39;
    ...</code></pre>
     
   </div>
@@ -2641,6 +2540,7 @@ should или setup.</p>
       <pre class="lines">
 
 
+547
 548
 549
 550
@@ -2652,17 +2552,16 @@ should или setup.</p>
 556
 557
 558
-559
-560</pre>
+559</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 548</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 547</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_getTag'>getTag</span> <span class='id identifier rubyid_selector'>selector</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_tag'>get_tag</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_tags'>tags</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_selector'>selector</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>getTag: </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_tag: </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
     <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
       <span class='id identifier rubyid_tags'>tags</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_tag_name'>tag_name</span>
@@ -2677,9 +2576,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="getTitle-class_method">
+  <h3 class="signature " id="go_to-class_method">
   
-    + (<tt>Object</tt>) <strong>getTitle</strong> 
+    + (<tt>Object</tt>) <strong>go_to</strong>(url) 
   
 
   
@@ -2688,7 +2587,7 @@ should или setup.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Получить заголовок окна.</p>
+<p>Переход по ссылке. Используется только в блоках should или setup</p>
 
 
   </div>
@@ -2701,37 +2600,46 @@ should или setup.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
-   @@somePage = &#39;http://www.example.com&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
+   @@somePage = &#39;http://inventos.ru/produkty/#top&#39;
 
    context &quot;Example&quot; do
 
-     should &#39;TODO somethin&#39; do
-       ...
-       titles = Unit.getTitle
-       ... </code></pre>
+     setup do
+       Unit.go_to @@somePage
+     end
+   ...</code></pre>
     
   </div>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
+<p class="tag_title">Parameters:</p>
+<ul class="param">
   
     <li>
       
-      
-        <span class='type'></span>
-      
+        <span class='name'>url</span>
       
       
-        
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
         <div class='inline'>
-<p>Hash ключ - имя браузера, аргумент - title.</p>
+<p>ссылка, по которой необходимо перейти.</p>
 </div>
       
     </li>
   
 </ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#refresh-class_method" title="SelWeT::Unit.refresh (method)">refresh</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -2739,41 +2647,27 @@ should или setup.</p>
       <pre class="lines">
 
 
-1020
-1021
-1022
-1023
-1024
-1025
-1026
-1027
-1028
-1029
-1030
-1031
-1032
-1033
-1034
-1035</pre>
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 1020</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 135</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_getTitle'>getTitle</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_go_to'>go_to</span> <span class='id identifier rubyid_url'>url</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
     <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
-      <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>title</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span>
+      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_navigate'>navigate</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_url'>url</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_titles'>titles</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-    <span class='id identifier rubyid_titles'>titles</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>title</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_titles'>titles</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2805,8 +2699,8 @@ should или setup.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
@@ -2864,6 +2758,7 @@ should или setup.</p>
       <pre class="lines">
 
 
+989
 990
 991
 992
@@ -2877,14 +2772,13 @@ should или setup.</p>
 1000
 1001
 1002
-1003
-1004</pre>
+1003</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 990</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 989</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hoverOverElement'>hoverOverElement</span> <span class='id identifier rubyid_selector'>selector</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
     <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
@@ -2904,9 +2798,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="openInNewWindow-class_method">
+  <h3 class="signature " id="in_new_window-class_method">
   
-    + (<tt>[Boolean,String]</tt>) <strong>openInNewWindow</strong>(selector) 
+    + (<tt>[Boolean,String]</tt>) <strong>in_new_window</strong>(selector) 
   
 
   
@@ -2928,16 +2822,16 @@ should или setup.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
 
      should &#39;TODO somethin&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
-       Unit.openInNewWindow &#39;a.someclass&#39;
+       Unit.in_new_window &#39;a.someclass&#39;
        ... </code></pre>
     
   </div>
@@ -2985,9 +2879,9 @@ should или setup.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#switchToWindow-class_method" title="SelWeT::Unit.switchToWindow (method)">switchToWindow</a></span></li>
+      <li>switchToWindow</li>
     
-      <li><span class='object_link'><a href="#closeWindow-class_method" title="SelWeT::Unit.closeWindow (method)">closeWindow</a></span></li>
+      <li><span class='object_link'><a href="#close_window-class_method" title="SelWeT::Unit.close_window (method)">close_window</a></span></li>
     
   </ul>
 
@@ -2997,6 +2891,7 @@ should или setup.</p>
       <pre class="lines">
 
 
+865
 866
 867
 868
@@ -3026,16 +2921,15 @@ should или setup.</p>
 892
 893
 894
-895
-896</pre>
+895</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 866</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 865</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_openInNewWindow'>openInNewWindow</span> <span class='id identifier rubyid_selector'>selector</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_in_new_window'>in_new_window</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_not_opened'>not_opened</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
     <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
@@ -3069,9 +2963,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="openLink-class_method">
+  <h3 class="signature " id="open_link-class_method">
   
-    + (<tt>Object</tt>) <strong>openLink</strong>(url) 
+    + (<tt>Object</tt>) <strong>open_link</strong>(url) 
   
 
   
@@ -3093,9 +2987,9 @@ should или setup.</p>
     
       
       <pre class="example code"><code>class SelWeT::Unit
-        setBrowsers [:firefox, :chrome]
-        setSeleniumServerUrl &quot;http://localhost:4444/wd/hub&quot;
-        openLink &quot;http://inventos.ru/&quot;
+        set_browsers [:firefox, :chrome]
+        set_selenium_server_url &quot;http://localhost:4444/wd/hub&quot;
+        open_link &quot;http://inventos.ru/&quot;
         ...</code></pre>
     
   </div>
@@ -3134,7 +3028,7 @@ should или setup.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 107</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_openLink'>openLink</span> <span class='id identifier rubyid_url'>url</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_open_link'>open_link</span> <span class='id identifier rubyid_url'>url</span>
   <span class='cvar'>@@start_url</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3143,9 +3037,9 @@ should или setup.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="postForm-class_method">
+  <h3 class="signature " id="post_form-class_method">
   
-    + (<tt>[Boolean,String]</tt>) <strong>postForm</strong>(selector, fields = nil) 
+    + (<tt>[Boolean,String]</tt>) <strong>post_form</strong>(selector, fields = nil) 
   
 
   
@@ -3172,7 +3066,7 @@ should или setup.</p>
   context &quot;Example&quot; do
 
     should &quot;Successfull authorization&quot; do
-      status, error = Unit.postForm &quot;.form&quot;, {&#39;#email&#39; =&gt; &#39;admin@example.ru&#39;, &#39;#password&#39; =&gt; &#39;admin&#39;, &#39;.checkbox&#39; =&gt; :click, &#39;.submit&#39;=&gt;:submit}
+      status, error = Unit.post_form &quot;.form&quot;, {&#39;#email&#39; =&gt; &#39;admin@example.ru&#39;, &#39;#password&#39; =&gt; &#39;admin&#39;, &#39;.checkbox&#39; =&gt; :click, &#39;.submit&#39;=&gt;:submit}
   ...</code></pre>
     
   </div>
@@ -3248,7 +3142,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
     
       <li><span class='object_link'><a href="#click-class_method" title="SelWeT::Unit.click (method)">click</a></span></li>
     
-      <li><span class='object_link'><a href="#fillTheField-class_method" title="SelWeT::Unit.fillTheField (method)">fillTheField</a></span></li>
+      <li><span class='object_link'><a href="#fill-class_method" title="SelWeT::Unit.fill (method)">fill</a></span></li>
     
   </ul>
 
@@ -3258,6 +3152,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
       <pre class="lines">
 
 
+663
 664
 665
 666
@@ -3340,33 +3235,32 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
 743
 744
 745
-746
-747</pre>
+746</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 664</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 663</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_postForm'>postForm</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_post_form'>post_form</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
     <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='op'>&gt;</span><span class='int'>1</span>
-      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>postForm: (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'>) Found more than one form with selector &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> 
+      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>post_form: (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_content'>) Found more than one form with selector &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> 
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_check_elements'>check_elements</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
   <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
-    <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_checkElement'>checkElement</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_check_element'>check_element</span> <span class='id identifier rubyid_key'>key</span>
     <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
       <span class='id identifier rubyid_check_elements'>check_elements</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_check_elements'>check_elements</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='id identifier rubyid_message'>message</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> : </span><span class='tstring_end'>&#39;</span></span><span class='op'>+</span><span class='id identifier rubyid_key'>key</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_check_elements'>check_elements</span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> : </span><span class='tstring_end'>&#39;</span></span><span class='op'>+</span><span class='id identifier rubyid_key'>key</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_browser'>browser</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='op'>&gt;</span><span class='int'>1</span>
-        <span class='id identifier rubyid_check_elements'>check_elements</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_check_elements'>check_elements</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>postForm:(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_browser'>browser</span><span class='embexpr_end'>}</span><span class='tstring_content'>) Element of form not uniq : </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_key'>key</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_check_elements'>check_elements</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>postForm:(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_browser'>browser</span><span class='embexpr_end'>}</span><span class='tstring_content'>) Element of form not uniq : </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_key'>key</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_check_elements'>check_elements</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_check_elements'>check_elements</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>post_form:(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_browser'>browser</span><span class='embexpr_end'>}</span><span class='tstring_content'>) Element of form not uniq : </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_key'>key</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_check_elements'>check_elements</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>post_form:(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_browser'>browser</span><span class='embexpr_end'>}</span><span class='tstring_content'>) Element of form not uniq : </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_key'>key</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
@@ -3385,7 +3279,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>postForm: Bad args was passed: </span><span class='tstring_end'>&#39;</span></span><span class='op'>+</span><span class='id identifier rubyid_bad_args'>bad_args</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_bad_args'>bad_args</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>post_form: Bad args was passed: </span><span class='tstring_end'>&#39;</span></span><span class='op'>+</span><span class='id identifier rubyid_bad_args'>bad_args</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_bad_args'>bad_args</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
   <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span> <span class='op'>==</span> <span class='symbol'>:click</span>
       <span class='id identifier rubyid_click'>click</span> <span class='id identifier rubyid_key'>key</span>
@@ -3394,7 +3288,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
       <span class='id identifier rubyid_submit_button'>submit_button</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
     <span class='kw'>end</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Array</span>
-      <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='id identifier rubyid_selectItemsFromTheSelect'>selectItemsFromTheSelect</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span> <span class='op'>=</span> <span class='id identifier rubyid_set_select_items'>set_select_items</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
       <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
     <span class='kw'>end</span>          
   <span class='kw'>end</span>
@@ -3426,7 +3320,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>postForm: For &quot;select&quot; you must pass array with selected values!</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_errors'>errors</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>post_form: For &quot;select&quot; you must pass array with selected values!</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_errors'>errors</span>
   <span class='id identifier rubyid_click'>click</span> <span class='id identifier rubyid_submit_button'>submit_button</span> <span class='kw'>unless</span> <span class='op'>!</span><span class='id identifier rubyid_submit_button'>submit_button</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
 <span class='kw'>end</span></pre>
@@ -3475,7 +3369,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#followTheLink-class_method" title="SelWeT::Unit.followTheLink (method)">followTheLink</a></span></li>
+      <li><span class='object_link'><a href="#go_to-class_method" title="SelWeT::Unit.go_to (method)">go_to</a></span></li>
     
   </ul>
 
@@ -3485,6 +3379,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
       <pre class="lines">
 
 
+523
 524
 525
 526
@@ -3492,11 +3387,10 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
 528
 529
 530
-531
-532</pre>
+531</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 524</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 523</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -3538,14 +3432,14 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
 
      should &#39;Make screenshot&#39; do
-       Unit.followTheLink @@somePage
+       Unit.go_to @@somePage
        ...
        Unit.screenshot &#39;TestScreenshot&#39;
        ... </code></pre>
@@ -3579,6 +3473,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
       <pre class="lines">
 
 
+837
 838
 839
 840
@@ -3586,11 +3481,10 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
 842
 843
 844
-845
-846</pre>
+845</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 838</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 837</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_screenshot'>screenshot</span> <span class='id identifier rubyid_filename'>filename</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -3607,9 +3501,83 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="selectItemsFromTheSelect-class_method">
+  <h3 class="signature " id="set_browsers-class_method">
   
-    + (<tt>Object</tt>) <strong>selectItemsFromTheSelect</strong>(selector, items = nil) 
+    + (<tt>Object</tt>) <strong>set_browsers</strong>(params) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Устанавливает используемые для тестирования браузеры. Необходимо
+использовать перед блоками тестов.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>class SelWeT::Unit
+        set_browsers [:firefox, :chrome]
+        ...</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>params</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>массив, содержащий одно или несколько из следующий значений: :firefox,
+:chrome, :ie, :safari. Для :chrome и :ie Selenium Server следует запускать
+с соответствующими драйверами.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_browsers'>set_browsers</span> <span class='id identifier rubyid_params'>params</span> 
+  <span class='cvar'>@@browsers</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_select_items-class_method">
+  
+    + (<tt>Object</tt>) <strong>set_select_items</strong>(selector, items = nil) 
   
 
   
@@ -3639,7 +3607,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
    context &quot;Example&quot; do
 
      should &quot;TODO something&quot; do
-       Unit.selectItemsFromTheSelect &#39;select[name=&quot;some_name&quot;]&#39;, [&#39;value 1&#39;, &#39;value2&#39;]
+       Unit.set_select_items &#39;select[name=&quot;some_name&quot;]&#39;, [&#39;value 1&#39;, &#39;value2&#39;]
    ...    </code></pre>
     
   </div>
@@ -3750,7 +3718,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
     <td>
       <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 238</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_selectItemsFromTheSelect'>selectItemsFromTheSelect</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_items'>items</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_set_select_items'>set_select_items</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_items'>items</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -3767,7 +3735,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
         <span class='kw'>if</span> <span class='id identifier rubyid_thread_status'>thread_status</span>
           <span class='kw'>unless</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_tag_name'>tag_name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>select</span><span class='tstring_end'>&#39;</span></span>
             <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
-            <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> - selectItemsFromTheSelect using only for select!</span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> - set_select_items using only for select!</span><span class='tstring_end'>&quot;</span></span>
           <span class='kw'>else</span>
             <span class='id identifier rubyid_option'>option</span> <span class='op'>=</span> <span class='const'>Selenium</span><span class='op'>::</span><span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Support</span><span class='op'>::</span><span class='const'>Select</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span>
             <span class='kw'>if</span> <span class='id identifier rubyid_option'>option</span><span class='period'>.</span><span class='id identifier rubyid_multiple?'>multiple?</span>
@@ -3782,7 +3750,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
                 <span class='kw'>end</span>
                 <span class='kw'>if</span> <span class='id identifier rubyid_items'>items</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;</span> <span class='int'>0</span>
                   <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
-                  <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>selectItemsFromTheSelect: Some passed option values were not found (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>): </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_items'>items</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>set_select_items: Some passed option values were not found (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>): </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_items'>items</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
                 <span class='kw'>end</span>
               <span class='kw'>end</span>
             <span class='kw'>else</span>
@@ -3792,11 +3760,11 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
                     <span class='id identifier rubyid_option'>option</span><span class='period'>.</span><span class='id identifier rubyid_select_by'>select_by</span><span class='lparen'>(</span><span class='symbol'>:text</span><span class='comma'>,</span> <span class='id identifier rubyid_items'>items</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
                   <span class='kw'>rescue</span>
                     <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
-                    <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>selectItemsFromTheSelect: Option &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_items'>items</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; does not exist!</span><span class='tstring_end'>&quot;</span></span>
+                    <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>set_select_items: Option &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_items'>items</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; does not exist!</span><span class='tstring_end'>&quot;</span></span>
                   <span class='kw'>end</span>
                 <span class='kw'>else</span>
                   <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>false</span>
-                  <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>selectItemsFromTheSelect: &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; is not multiple! You must pass a single value.</span><span class='tstring_end'>&quot;</span></span>
+                  <span class='id identifier rubyid_errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>set_select_items: &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; is not multiple! You must pass a single value.</span><span class='tstring_end'>&quot;</span></span>
                 <span class='kw'>end</span>
               <span class='kw'>end</span>
             <span class='kw'>end</span>
@@ -3813,83 +3781,9 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="setBrowsers-class_method">
+  <h3 class="signature " id="set_selenium_server_url-class_method">
   
-    + (<tt>Object</tt>) <strong>setBrowsers</strong>(params) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Устанавливает используемые для тестирования браузеры. Необходимо
-использовать перед блоками тестов.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code>class SelWeT::Unit
-        setBrowsers [:firefox, :chrome]
-        ...</code></pre>
-    
-  </div>
-<p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>params</span>
-      
-      
-        <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>массив, содержащий одно или несколько из следующий значений: :firefox,
-:chrome, :ie, :safari. Для :chrome и :ie Selenium Server следует запускать
-с соответствующими драйверами.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-116
-117
-118</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 116</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_setBrowsers'>setBrowsers</span> <span class='id identifier rubyid_params'>params</span> 
-  <span class='cvar'>@@browsers</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="setSeleniumServerUrl-class_method">
-  
-    + (<tt>Object</tt>) <strong>setSeleniumServerUrl</strong>(url) 
+    + (<tt>Object</tt>) <strong>set_selenium_server_url</strong>(url) 
   
 
   
@@ -3911,8 +3805,8 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
     
       
       <pre class="example code"><code>class SelWeT::Unit
-        setBrowsers [:firefox, :chrome]
-        setSeleniumServerUrl &quot;http://localhost:4444/wd/hub&quot;
+        set_browsers [:firefox, :chrome]
+        set_selenium_server_url &quot;http://localhost:4444/wd/hub&quot;
         ...</code></pre>
     
   </div>
@@ -3951,7 +3845,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
     <td>
       <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 96</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_setSeleniumServerUrl'>setSeleniumServerUrl</span> <span class='id identifier rubyid_url'>url</span> 
+<span class='kw'>def</span> <span class='id identifier rubyid_set_selenium_server_url'>set_selenium_server_url</span> <span class='id identifier rubyid_url'>url</span> 
   <span class='cvar'>@@url_selenium</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -4109,7 +4003,7 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
     <span class='id identifier rubyid_exit'>exit</span> <span class='int'>1</span>
   <span class='kw'>end</span>
   <span class='kw'>if</span> <span class='cvar'>@@start_url</span>
-    <span class='id identifier rubyid_followTheLink'>followTheLink</span> <span class='cvar'>@@start_url</span>
+    <span class='id identifier rubyid_go_to'>go_to</span> <span class='cvar'>@@start_url</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -4118,217 +4012,9 @@ checkbox, radio и кнопок(не submit!) - значение :click; 3) дл
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="switchToFrame-class_method">
+  <h3 class="signature " id="switch_to_window-class_method">
   
-    + (<tt>Object</tt>) <strong>switchToFrame</strong>(selector) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Переключиться на iframe. Используется только в блоках should или setup. Для
-дальнейшего взаимодействия с основной страницей необходимо выполнить
-<span class='object_link'><a href="#switchToPage-class_method" title="SelWeT::Unit.switchToPage (method)">switchToPage</a></span>.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code>class SelWeT::Unit
-
-  ...
-
-   context &quot;Example&quot; do
-
-     should &#39;Show popup&#39; do
-       Unit.switchToFrame &#39;iframe#frame1&#39;
-   ...</code></pre>
-    
-  </div>
-<p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>selector</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>css селектор на нужный iframe.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#switchToPage-class_method" title="SelWeT::Unit.switchToPage (method)">switchToPage</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 157</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_switchToFrame'>switchToFrame</span> <span class='id identifier rubyid_selector'>selector</span>
-  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_tags'>tags</span> <span class='op'>=</span> <span class='id identifier rubyid_getTag'>getTag</span> <span class='id identifier rubyid_selector'>selector</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
-    <span class='kw'>return</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>switchToFrame: </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_bad_values'>bad_values</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_tags'>tags</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_tag'>tag</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iframe</span><span class='tstring_end'>&#39;</span></span>
-      <span class='id identifier rubyid_bad_values'>bad_values</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> : </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_tag'>tag</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_bad_values'>bad_values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>!=</span> <span class='int'>0</span>
-    <span class='kw'>return</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>switchToFrame: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_bad_values'>bad_values</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> - It is not &#39;iframe&#39;! </span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
-    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span>
-      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_frame'>frame</span> <span class='id identifier rubyid_element'>element</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>true</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="switchToPage-class_method">
-  
-    + (<tt>Object</tt>) <strong>switchToPage</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Переключиться на основную страницу. Используется только в блоках should или
-setup.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code>class SelWeT::Unit
-
-  ...
-
-   context &quot;Example&quot; do
-
-     should &#39;Show popup&#39; do
-       ...
-       Unit.switchToPage
-   ...</code></pre>
-    
-  </div>
-
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#switchToFrame-class_method" title="SelWeT::Unit.switchToFrame (method)">switchToFrame</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-216
-217
-218
-219
-220
-221
-222
-223
-224</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 216</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_switchToPage'>switchToPage</span>
-  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
-    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_default_content'>default_content</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="switchToWindow-class_method">
-  
-    + (<tt>[Boolean,String]</tt>) <strong>switchToWindow</strong>(num) 
+    + (<tt>[Boolean,String]</tt>) <strong>switch_to_window</strong>(num) 
   
 
   
@@ -4351,8 +4037,8 @@ setup.</p>
       
       <pre class="example code"><code>class SelWeT::Unit
 
-   setBrowsers [:firefox, :chrome]
-   setSeleniumServerUrl &#39;http://localhost:4444/wd/hub&#39;
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
    @@somePage = &#39;http://www.example.com&#39;
 
    context &quot;Example&quot; do
@@ -4361,7 +4047,7 @@ setup.</p>
        Unit.openInNewTab &#39;a.someclass&#39;
        ...
        Unit.switchToWindow 0
-       Unit.closeWindow 1
+       Unit.close_window 1
        ... </code></pre>
     
   </div>
@@ -4409,9 +4095,9 @@ setup.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li><span class='object_link'><a href="#openInNewWindow-class_method" title="SelWeT::Unit.openInNewWindow (method)">openInNewWindow</a></span></li>
+      <li><span class='object_link'><a href="#in_new_window-class_method" title="SelWeT::Unit.in_new_window (method)">in_new_window</a></span></li>
     
-      <li><span class='object_link'><a href="#closeWindow-class_method" title="SelWeT::Unit.closeWindow (method)">closeWindow</a></span></li>
+      <li><span class='object_link'><a href="#close_window-class_method" title="SelWeT::Unit.close_window (method)">close_window</a></span></li>
     
   </ul>
 
@@ -4421,6 +4107,7 @@ setup.</p>
       <pre class="lines">
 
 
+916
 917
 918
 919
@@ -4434,13 +4121,12 @@ setup.</p>
 927
 928
 929
-930
-931</pre>
+930</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 917</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 916</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_switchToWindow'>switchToWindow</span> <span class='id identifier rubyid_num'>num</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_switch_to_window'>switch_to_window</span> <span class='id identifier rubyid_num'>num</span>
   <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
@@ -4460,14 +4146,326 @@ setup.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="to_frame-class_method">
+  
+    + (<tt>Object</tt>) <strong>to_frame</strong>(selector) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Переключиться на iframe. Используется только в блоках should или setup. Для
+дальнейшего взаимодействия с основной страницей необходимо выполнить
+<span class='object_link'><a href="#to_page-class_method" title="SelWeT::Unit.to_page (method)">to_page</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>class SelWeT::Unit
+
+  ...
+
+   context &quot;Example&quot; do
+
+     should &#39;Show popup&#39; do
+       Unit.to_frame &#39;iframe#frame1&#39;
+   ...</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selector</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>css селектор на нужный iframe.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#to_page-class_method" title="SelWeT::Unit.to_page (method)">to_page</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 157</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_frame'>to_frame</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_tags'>tags</span> <span class='op'>=</span> <span class='id identifier rubyid_get_tag'>get_tag</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span>
+    <span class='kw'>return</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>to_frame: </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_bad_values'>bad_values</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_tags'>tags</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_tag'>tag</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iframe</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_bad_values'>bad_values</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> : </span><span class='tstring_end'>&quot;</span></span><span class='op'>+</span><span class='id identifier rubyid_tag'>tag</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_bad_values'>bad_values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>!=</span> <span class='int'>0</span>
+    <span class='kw'>return</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>to_frame: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_bad_values'>bad_values</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> - It is not &#39;iframe&#39;! </span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
+    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span>
+      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_frame'>frame</span> <span class='id identifier rubyid_element'>element</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_page-class_method">
+  
+    + (<tt>Object</tt>) <strong>to_page</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Переключиться на основную страницу. Используется только в блоках should или
+setup.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>class SelWeT::Unit
+
+  ...
+
+   context &quot;Example&quot; do
+
+     should &#39;Show popup&#39; do
+       ...
+       Unit.to_page
+   ...</code></pre>
+    
+  </div>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#to_frame-class_method" title="SelWeT::Unit.to_frame (method)">to_frame</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218
+219
+220
+221
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 216</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_page'>to_page</span>
+  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
+    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_default_content'>default_content</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="window_title-class_method">
+  
+    + (<tt>Object</tt>) <strong>window_title</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Получить заголовок окна.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>class SelWeT::Unit
+
+   set_browsers [:firefox, :chrome]
+   set_selenium_server_url &#39;http://localhost:4444/wd/hub&#39;
+   @@somePage = &#39;http://www.example.com&#39;
+
+   context &quot;Example&quot; do
+
+     should &#39;TODO somethin&#39; do
+       ...
+       titles = Unit.window_title
+       ... </code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p>Hash ключ - имя браузера, аргумент - title.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 1019</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_window_title'>window_title</span>
+  <span class='id identifier rubyid_threads'>threads</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_driver'>driver</span><span class='op'>|</span>
+    <span class='id identifier rubyid_threads'>threads</span> <span class='op'>&lt;&lt;</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+      <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+      <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>title</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_driver'>driver</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:join</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_titles'>titles</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_threads'>threads</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+    <span class='id identifier rubyid_titles'>titles</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>title</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_titles'>titles</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Mon Dec 29 12:13:09 2014 by
+  Generated on Mon Jan 19 11:34:42 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.1.3).
+  0.8.7.6 (ruby-2.2.0).
 </div>
 
   </body>
