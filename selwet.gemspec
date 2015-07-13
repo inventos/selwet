@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name        = 'selwet'
-  s.version     = '0.0.4'
+  s.version     = '1.0.0'
   s.summary     = "Selenium Web Test"
   s.authors     = ["Motin Artem"]
   s.email       = 'a.motin@inventos.ru'
   s.homepage    = 'https://github.com/inventos/selwet.git' 
   s.files       = ["lib/selwet.rb"]
-  s.description   = ["Gem for creating web tests"]
+  s.description   = ["Gem for creating web tests based on Selenium"]
   s.license       = 'MIT'
   s.require_paths = ["lib"]
   s.add_development_dependency "selenium-webdriver", '~> 2.44'

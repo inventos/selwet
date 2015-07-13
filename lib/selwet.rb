@@ -3,10 +3,9 @@
 require 'selenium-webdriver'
 require 'test-unit'
 require 'shoulda-context'
-#Модуль SelWeT (Selenium Web Test) позволяет тестировать веб-страницы в одном, или нескольких браузерах. Если тестирование производится в нескольких браузерах, то оно проводится параллельно.
+#SelWeT (Selenium Web Test) - гем для веб тестирования.
 module SelWeT
-#Класс Unit содержит методы для проверки элементов страницы, получения их текстового содержимого и значения поля href для ссылок, заполнения полей,  select-ов и форм, указания файлов для загрузки, кликов по элементам и кнопкам алерта, проверки статуса для radio и checkbox, перехода на другую страницу, обновления страницы, проверки текущего URL, открытие ссылки в новом окне, смены и закрытия окна, создания скриншотов.
-#
+#Класс Unit содержит необходимый набор методов для взаимодействия с браузером.
 #Тесты пишутся с использованием shoulda-context.
 #@example
 #        #!/usr/bin/env ruby
@@ -15,216 +14,44 @@ module SelWeT
 # 
 #        class SelWeT::Unit
 #   
-#          set_browsers [:firefox, :chrome]
+#          set_browser :firefox
 #          set_selenium_server_url 'http://127.0.0.1:4444/wd/hub'
 #   
 #          context "Example" do
-#            should "About Us" do
+#
+#            should "open page 'About Us'" do
 #              Unit.go_to "http://inventos.ru/"
 #              Unit.click '#menu-item-3795 a'
-#              status, error = Unit.check_location 'http://inventos.ru/about/#top'
-#              assert_equal true, status, error
+#              current_location = Unit.get_location
+#              assert_equal 'http://inventos.ru/about/#top', current_location, 'Invalid location!'
 #            end
+# 
 #          end
 #
 #        end
-class Unit < Test::Unit::TestCase
-  include SelWeT
-  private
-    @@url_selenium = nil
-    @@start_url = nil
-    @@browsers = nil
-    @@opened_window = {}
-    @@win_num = 0
+  class Unit < Test::Unit::TestCase
+
+    include SelWeT
+
+    private
     
-  class << self
-#Запускает браузеры перед выполнением тестов.
-#Выполняется автоматически непосредственно перед запуском тестов.
-    def startup
-      @@driver = {}
-      url = nil
-      unless @@url_selenium
-        puts 'URL for selenium server not specified!'
-        exit 1
-      else
-        url = @@url_selenium
-      end
-      if @@browsers.nil?
-        puts 'Browsers not specified!'
-        exit 1
-      end
-      begin
-        @@browsers.each do |browser|
-          if [:firefox, :chrome, :ie, :safari].include? browser
-            @@driver[browser.to_s] = Selenium::WebDriver.for(:remote, :desired_capabilities => browser, :url => url)
-            @@driver[browser.to_s].manage.timeouts.implicit_wait = 15
-            @@driver[browser.to_s].manage.timeouts.script_timeout = 15
-            @@driver[browser.to_s].manage.timeouts.page_load = 15
-            @@driver[browser.to_s].manage.window.maximize
-          else
-            puts "Bad browser #{browser}"
-          end
-        end
-      rescue Exception => e
-        puts "ERROR: #{e.to_s}"
-        exit 1
-      end
-      if @@start_url
-        go_to @@start_url
-      end
-    end 
-#Закрывает все используемые браузеры после выполнения всех тестов.
-#Выполняется автоматически.    
-    def shutdown
-      @@driver.each do |name, driver|
-        begin
-          driver.close
-          driver.quit
-        rescue
-          puts 'Browser '+name+' not closed ...' 
-        end
-      end
+      @@server_url = nil
+      @@timewait = 5
+	  @@pageload_timewait = 5
+      @@browser = nil
+      @@handles = {}
+      
+    class Error < RuntimeError
     end
-#Устанавливает URL Selenium Server. Необходимо использовать перед блоками тестов.
-#
-#@param url [String] URL запущенного Selenium Server
-#@example
-#       class SelWeT::Unit
-#               set_browsers [:firefox, :chrome]
-#               set_selenium_server_url "http://localhost:4444/wd/hub"
-#               ...
-    def set_selenium_server_url url 
-      @@url_selenium = url
+    
+    class ArgumentValueError < Error
     end
-#Устанавливает стартовую страницу при запуске браузеров. Использовать только перед блоками тестов.
-#@param url [String] URL тестируемого сайта
-#@example
-#       class SelWeT::Unit
-#               set_browsers [:firefox, :chrome]
-#               set_selenium_server_url "http://localhost:4444/wd/hub"
-#               open_link "http://inventos.ru/"
-#               ...
-    def open_link url
-      @@start_url = url
+    
+    class ElementIsMissingError < Error
     end
-#Устанавливает используемые для тестирования браузеры. Необходимо использовать перед блоками тестов.
-#@param params [Array] массив, содержащий одно или несколько из следующий значений: :firefox, :chrome, :ie, :safari. Для :chrome и :ie Selenium Server следует запускать с соответствующими драйверами.
-#@example
-#       class SelWeT::Unit
-#               set_browsers [:firefox, :chrome]
-#               ...
-    def set_browsers params 
-      @@browsers = params
-    end
-#Переход по ссылке. Используется только в блоках should или setup
-#@param url [String] ссылка, по которой необходимо перейти.
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://inventos.ru/produkty/#top'
-#   
-#          context "Example" do
-#     
-#            setup do
-#              Unit.go_to @@somePage
-#            end
-#          ...
-#@see refresh
-    def go_to url
-      threads = []
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          driver.navigate.to url
-        end
-      end
-      threads.each(&:join)
-    end
-#Переключиться на iframe. Используется только в блоках should или setup. Для дальнейшего взаимодействия с основной страницей необходимо выполнить {to_page}.
-#@param selector [String] css селектор на нужный iframe.
-#@example
-#       class SelWeT::Unit
-#   
-#         ...
-#   
-#          context "Example" do
-#     
-#            should 'Show popup' do
-#              Unit.to_frame 'iframe#frame1'
-#          ...
-#@see to_page
-    def to_frame selector
-      threads = []
-      status, message, tags = get_tag selector
-      unless status
-        return false, "to_frame: "+message
-      end
-      bad_values = []
-      tags.each do |name, tag|
-        if tag != 'iframe'
-          bad_values << name +" : "+tag
-        end
-      end
-      if bad_values.size != 0
-        return false, "to_frame: #{bad_values.join(", ")} - It is not 'iframe'! "
-      end
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          element = driver.find_element(:css => selector)
-          driver.action.move_to(element).perform
-          driver.switch_to.frame element
-        end
-      end
-      threads.each(&:join)
-      return true
-    end
-#Очистить кэш браузера
-#@example
-#       class SelWeT::Unit
-#   
-#         ...
-#   
-#          context "Example" do
-#     
-#            should 'Do something' do
-#              ...
-#              Unit.clear_cache
-#          ...
-  def clear_cache
-    threads = []
-    @@driver.each do |name, driver|
-      threads << Thread.new do
-        driver.manage.delete_all_cookies
-      end
-    end
-    threads.each(&:join)
-  end
-#Переключиться на основную страницу. Используется только в блоках should или setup.
-#@example
-#       class SelWeT::Unit
-#   
-#         ...
-#   
-#          context "Example" do
-#     
-#            should 'Show popup' do
-#              ...
-#              Unit.to_page
-#          ...
-#@see to_frame
-    def to_page
-      threads = []
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          driver.switch_to.default_content
-        end
-      end
-      threads.each(&:join)
-    end    
-#Выбирает элементы в select. Используется только в блоках should или setup. Работает как с обычными select, так и с select с множественным выбором. Если для select с множественным выбором не указать аргумент items, то выделение будет снято со всех option.
-# @param selector [String] css селектор select.
-# @param items [Array] массив значений, которые необходимо выбрать.
+
+    class << self
+#Кликает на кнопку 'Cancel' в окне алерта.
 #@example
 #       class SelWeT::Unit
 #   
@@ -233,109 +60,15 @@ class Unit < Test::Unit::TestCase
 #          context "Example" do
 #     
 #            should "TODO something" do
-#              Unit.set_select_items 'select[name="some_name"]', ['value 1', 'value2']
-#          ...    
-    def set_select_items selector, items = nil
-        threads = []
-        status = true
-        errors = []
-        @@driver.each do |name, driver|
-          threads << Thread.new do
-            thread_status = true
-            begin
-              element = driver.find_element(:css => selector)
-            rescue Exception => e
-              errors << name+' : Bad selector : '+selector
-              thread_status = false
-              status = false
-            end
-            if thread_status
-              unless element.tag_name == 'select'
-                status = false
-                errors << "#{name} - set_select_items using only for select!"
-              else
-                option = Selenium::WebDriver::Support::Select.new(element)
-                if option.multiple?
-                  option.deselect_all 
-                  if items
-                    options = element.find_elements(:css => 'option')
-                    options.each do |item|
-                      if items.include? item.text
-                        items.delete item.text
-                        driver.action.key_down(:shift).click(item).key_up(:shift).perform
-                      end
-                    end
-                    if items.size > 0
-                      status = false
-                      errors << "set_select_items: Some passed option values were not found (#{name}): "+items.join(' ')
-                    end
-                  end
-                else
-                  if items
-                    if items.size == 1
-                      begin
-                        option.select_by(:text, items[0])
-                      rescue
-                        status = false
-                        errors << "set_select_items: Option '#{items}' does not exist!"
-                      end
-                    else
-                      status = false
-                      errors << "set_select_items: '#{selector}' is not multiple! You must pass a single value."
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-        threads.each(&:join)
-        return [status, errors.uniq.join("\n")]
-    end
-#Кликает по элементу. Используется только в блоках should или setup. Селектор должен указывать только на один конкретный элемент.
-#@param selector [String] селектор элемента
-#@param browserName [Symbol] используется, если в разных браузерах нужно кликнуть на разные элементы. Принимает одно из следующих значений: :firefox, :chrome, :ie, :safari
-#@return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст сообщения об ошибке, если она возникнет
-#@example
-#       class SelWeT::Unit
-#   
-#           ...
-#   
-#          context "Example" do
-#     
-#            should "TODO something" do
 #              ...
-#              status, error = Unit.click 'input[type="submit"]'
-#           ...
-#@see alert_ok
-#@see alert_cancel
-    def click selector, browserName = nil
-      threads = []
-      status = true
-      @@driver.each do |name, driver|
-        if browserName.nil? or name == browserName.to_s
-          threads << Thread.new do
-            begin
-              element = driver.find_element(:css => selector)
-              wait = Selenium::WebDriver::Wait.new(:timeout => 15)
-              wait.until { driver.find_element(:css => selector).displayed? }
-              driver.action.move_to(element).perform
-              element.click
-            rescue Exception => e
-              status = false
-            end
-          end
-        end
+#              Unit.alert_cancel
+#          ...
+#@see click
+#@see alert_ok 
+      def alert_cancel
+        @@driver.switch_to.alert.dismiss
       end
-      threads.each(&:join)
-      if status
-        return [true, ""]
-      else
-        return [false, "click: Bad selector : #{selector}"]
-      end
-    end
-#Кликает на кнопку 'Ok' в окне алерта. Используется только в блоках should или setup.
-#@return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст сообщения об ошибке, если она возникнет
+#Кликает на кнопку 'Ok' в окне алерта.
 #@example
 #       class SelWeT::Unit
 #   
@@ -348,692 +81,515 @@ class Unit < Test::Unit::TestCase
 #              Unit.alert_ok
 #          ...
 #@see click
-#@see alert_cancel    
-    def alert_ok
-      status = true
-      error = nil
-      threads = []
-      @@driver.each_value do |driver|
-        threads << Thread.new do
-          begin
-            driver.switch_to.alert.accept
-          rescue
-            status = false
-            error = 'alert_ok: No alert!'
-          end
-        end
+#@see alert_cancel 
+      def alert_ok
+        @@driver.switch_to.alert.accept
       end
-      threads.each(&:join)
-      return status, error
-    end
-#Кликает на кнопку 'Cancel' в окне алерта. Используется только в блоках should или setup.
-#@return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст сообщения об ошибке, если она возникнет
+#Возвращает состояние для radio и checkbox.
+# @param selector [String] css селектор
+# @return [FalseClass/TrueClass] checked ~ true, unchecked ~ false
 #@example
 #       class SelWeT::Unit
 #   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://inventos.ru/produkty/#top'
+#         ...
 #   
 #          context "Example" do
 #     
-#            should "TODO something" do
+#            should 'TODO something' do
+#              Unit.go_to 'http://some_page.com/
 #              ...
-#              Unit.alert_cancel
+#              status = Unit.checked?(#my_checkbox_id')
 #          ...
-#@see click
-#@see alert_ok      
-    def alert_cancel
-      status = true
-      error = nil
-      threads = []
-      @@driver.each_value do |driver|
-        threads << Thread.new do
-          begin
-            driver.switch_to.alert.dismiss
-          rescue
-            puts 'alert_ok: No alert!'
-          end
-        end
-      end
-      threads.each(&:join)
-      return status, error
-    end
-#Проверяет наличие элемента. Используется только в блоках should или setup. Возвращает первым аргументом статус выполнения операции (Boolean), вторым - сообщение об ошибке, если она возникнет (String), третьим - текст, содержащийся в элементе (Hash). Третий аргумент имеет следующую структуру: !{"имя_браузера_1" =>["текст"], "имя_браузера_2" =>["текст"],...}. Если по данному селектору найдено более одного элемента, то количество элементов в массиве будет соответствовать их числу, то есть !{"имя_браузера_1" =>["текст_элемента_1", "текст_элемента_2", ...],...}. При установке параметра link
-# @param selector [String] css селектор элемента.
-# @param link [Boolean] параметр, позволяющий получить значение поля href. Работает только для ссылок.
-#@return [[Boolean, String, Hash]]
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://inventos.ru/produkty/#top'
-#   
-#          context "Example" do
-#     
-#            should "TODO something" do
-#              status, error, data = Unit.checkElement 'a.menu'
-#              status, error, data = Unit.checkElement 'a.toolbar', true
-#          ...   
-#@see checkElements
-    def check_element selector, link = nil
-      result = [true, "", []]
-      threads = []
-      data = {}
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          begin
-            wait = Selenium::WebDriver::Wait.new(:timeout => 15)
-            wait.until { driver.find_element(:css => selector) }
-            elements = driver.find_elements(:css => selector)
-          rescue
-            Thread.current["issue"] = name
-          end 
-          if elements.nil? or elements.size == 0
-            Thread.current["no_elems"] = name
-          else
-            elements.each do |element|
-              unless link
-                if element.attribute('type') == 'submit' or element.attribute('type') == 'button' or element.attribute('type') == 'reset'
-                  data[name].nil? ? data[name] = [element.attribute('value')] : data[name] << element.attribute('value')
-                else
-                  if element.tag_name == 'select'
-                    opts = element.text.split("\n")
-                    opts.each do |opt|
-                      opt.strip!
-                    end
-                    opts.delete ''
-                    data[name].nil? ? data[name] = [opts] : data[name] << opts
-                  else
-                    data[name].nil? ? data[name] = [element.text] : data[name] << element.text
-                  end
-                end
-              else
-                data[name].nil? ? data[name] = [{"link"=>element.attribute('href'), "text"=>element.text}] : data[name] << {"link"=>element.attribute('href'), "text"=>element.text}
-              end
-            end
-          end
-        end
-      end
-      threads.each(&:join)
-      threads.each do |i|
-        unless i["issue"].nil?
-          result[1] = (result[1].empty? ? "Bad selector '#{selector}'! Browsers: "+i["issue"].to_s : result[1]+" "+i["issue"].to_s)
+      def checked? selector
+        raise(ArgumentValueError, "Invalid value of argument 'selector'") unless selector.class == String
+        if check_element(selector) 
+          element = @@driver.find_element(:css => selector)
+          raise "Element #{selector} is not a checkbox/radio" unless ['radio', 'checkbox'].include?(element.tag_name)
+          raise "Element #{selector} not displayed" unless element.displayed?
+          return element.selected?.inspect
         else
-          unless i["no_elems"].nil?
-            result[1] = (result[1].empty? ? "Element '#{selector}' is missing. Browsers: "+i["no_elems"].to_s : result[1]+" "+i["no_elems"].to_s)
-          end
+          raise(ElementIsMissingError, "Element #{selector} is missing")
         end
       end
-      unless result[1].empty?
-        result[0] = false
-        return result
+#Проверяет наличие элемента на странице. Если нужно получить количество элементов, то в качестве второго аргумента следует передать true.
+#@param selector [String] css селектор элемент
+#@param num [FalseClass/TrueClass]
+#@return [FalseClass/TrueClass, Fixnum] первое значение - результат проверки наличия элемента, второе - число элементов (возвращается, если агрумент num имеет значение true)
+#@example 
+#       context "Example" do
+#  
+#         should "TODO something" do
+#           ...
+#           assert_equal true, Unit.check_element 'a.menu'
+#         end
+#           ...   
+      def check_element selector, num = nil
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        raise(ArgumentValueError, "Invalid value \"#{num}\" of argument 'num'") unless [FalseClass, TrueClass, NilClass].include?(num.class)
+        wait = Selenium::WebDriver::Wait.new(:timeout => @@timewait)
+        begin
+          wait.until { @@driver.find_element(:css => selector) }
+        rescue Selenium::WebDriver::Error::TimeOutError
+          return false
+        end
+        if num
+          return true, @@driver.find_elements(:css => selector).size
+        else
+          return true
+        end
       end
-      result[2] = data
-      return result
-    end
-#Проверяет наличие элементов. Используется только в блоках should или setup. Возвращает первым аргументом статус выполнения операции (Boolean), вторым - сообщение об ошибке, если она возникнет (String), третьим - текст, содержащийся в элементах ([Hash, Hash, ...]). Хеши имеют ту же структуру, что и в {check_element}.
-# @param selectors [Array] массив css селекторов элементов.
-# @param link [Boolean] параметр, позволяющий получить значение поля href. Работает только для ссылок.
-#@return [[Boolean, String, [Hash, Hash,...]]]
+#Очистить кэш браузера
+      def clear_cache
+        @@driver.manage.delete_all_cookies
+      end
+#Кликнуть на элемент.
+#@param selector [String] css селектор элемента
 #@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://inventos.ru/produkty/#top'
-#   
-#          context "Example" do
+#       context "Example" do
 #     
-#            should "TODO something" do
-#              status, error, data = Unit.check_elements ['input#email','input#password','a']
-#              #Получим количество ссылок
-#              a_num = data[2]["firefox"].size
-#          ...   
-#@see check_element   
-    def check_elements selectors, link = nil
-      result = [true, "", []]
-      return [false, "Argument 'selectors' must be Array!", []] unless selectors.class == Array
-      selectors.each do |selector|
-        status, message, data = check_element(selector, link)
-        unless status
-          result[1] = (result[1].empty? ? message+"\n" : result[1]+message+"\n")
-        end
-        result[2] << data
-      end
-      unless result[1].empty?
-        result[0] = false
-      end
-      return result
-    end
-#Обновляет страницу. Используется только в блоках should или setup.
-#@example
-#       class SelWeT::Unit
-#   
+#         should "TODO something" do
+#           ...
+#           Unit.click 'input[type="submit"]'
 #         ...
-#          @@somePage = 'http://inventos.ru/produkty/#top'
-#   
-#          context "Example" do
-#     
-#            should "TODO something" do
-#              Unit.refresh
-#          ...      
-#@see go_to
-    def refresh
-      threads = []
-      @@driver.each_value do |driver|
-        threads << Thread.new do
-          driver.navigate.refresh
+#@see alert_ok
+#@see alert_cancel
+      def click selector, desc = nil
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        raise(ArgumentValueError, "Invalid value \"#{desc}\" of  argument 'desc'") unless [String, NilClass].include?(desc.class)
+        if check_element(selector) 
+          element = @@driver.find_element(:css => selector)
+          raise "Element \"#{selector}\" is not displayed!" unless element.displayed?
+          element.click
+        else
+          raise(ElementIsMissingError, desc ? "Element #{desc} is missing" :"Element #{selector} is missing")
         end
       end
-      threads.each(&:join)
-    end
-#Возвращает тег по заданному селектору. Используется только в блоках should или setup.
+#Закрыть окно с номером num. Окна нумируются в порядке их открытия. Нумирация начинается с 0. Если необходимо закрыть текущее окно, то перед закрытием необходимо переключиться на другое окно. После закрытия окна происходить их переупорядочивание. Так, например, если было закрыто первое окно (num = 0), то второе окно станет первым (было num = 1, стало num = 0) и т.д.
+#@param num [Fixnum] номер окна
+#@example
+#       context "Example" do
+#            
+#         should 'TODO something' do
+#           Unit.close_window 2
+#           ... 
+#@see switch_to_window
+      def close_window num
+        raise ArgumentError.new("Invalid value \"#{num}\" of argument 'num'") unless num.class == Fixnum
+        update_window_handles
+        raise 'Invalid window number' unless @@handles.keys.include?(num.to_s)
+        current = @@handles.key(@@driver.window_handle)
+        raise 'Can not close active window' if num.to_s == current
+        @@driver.switch_to.window @@handles[num.to_s]
+        @@driver.close
+        @@handles.delete_if { |key, value| key == num.to_s }
+        @@driver.switch_to.window @@handles[current]
+        new_handles = {}
+        num = 0
+        @@handles.keys.sort.each do |key|
+          new_handles[num.to_s] = @@handles[key]
+          num += 1
+        end
+        @@handles = new_handles
+      end
+#Проверяет, отображается ли элемент странице.
+#@param selector [String] css селектор элемента
+#@return [FalseClass/TrueClass]
+#@example 
+#       context "Example" do
+#  
+#         should "TODO something" do
+#           ...
+#           assert_equal true, Unit.displayed? '.menu'
+#         end
+#           ...   
+      def displayed? selector
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        if check_element(selector)
+          return @@driver.find_element(:css => selector).displayed?
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
+        end
+      end
+#Заполнить поле или выбирает файл для загрузки.
 # @param selector [String] css селектор
-# @return [[Boolean, String, Hash]] первый аргумент - статус, второй - сообщение об ошибке, если она возникает, третий - хеш вида !{имя браузера => тег}.
-# @example
-#       class SelWeT::Unit
-#   
-#         ...
-#   
-#          context "Example" do
-#     
-#            should 'TODO something' do
-#              Unit.go_to @@somePage
-#              ...
-#              status, message, tags = Unit.get_tag '#some_id'
-#          ...
-    def get_tag selector
-      threads = []
-      tags = {}
-      status, message = check_element selector
-      return [false, "get_tag: "+message] unless status
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          tags[name] = driver.find_element(:css => selector).tag_name
-        end
-      end
-      threads.each(&:join)
-      return [true, "", tags]
-    end
-#Заполнить поле или выбирает файл для загрузки. Используется только в блоках should или setup.
-# @param selector [String] css селектор
-# @param value [String] значение, которое необходимо ввести.
-# @param postfix [Boolean] используется, если в разных браузерах необходимо ввести разные значения. К value добавляется '_имя_браузера'.
-# @return [[Boolean,String]] - первый аргумент - статус выполнения, второй - сообщение об ошибке, если она произойдёт.
+# @param value [String] значение, которое необходимо ввести
 #@example
-#       class SelWeT::Unit
-#   
-#         ...
-#   
-#          context "Example" do
+#       context "Example" do
 #     
-#            should 'TODO something' do
-#              Unit.go_to @@somePage
-#              ...
-#              status, error = Unit.fill 'input#some_id', 'some text' #заполнить текстовое поле
-#              status, error = Unit.fill 'input#[type={"file"}]', 'C:\\path\to\file' #выбрать файл для загрузки
-#          ...
-#@see go_to
-#@see post_form
-    def fill selector, value, postfix = nil
-      result = [true, ""]
-      threads = []
-      status, message, data = check_element selector 
-      unless status
-        return [false, message]
-      end
-      data.each_value do |i|
-        if i.size>1
-          return [false, "fill: Element with selector #{selector} not uniq!"]
-        end
-      end
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          element = driver.find_element(:css => selector)
-          driver.action.move_to(element).perform
+#         should 'TODO something' do
+#           Unit.go_to @@somePage
+#           ...
+#           Unit.fill_in 'input#some_id', 'some text' #заполнить текстовое поле
+#           Unit.fill_in 'input#[type={"file"}]', '/path/to/file' #выбрать файл для загрузки
+#       ...
+      def fill_in selector, value
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        raise(ArgumentValueError, "Invalid value \"#{value}\" of argument 'value'") unless value.class == String
+        if check_element(selector)
+          element = @@driver.find_element(:css => selector)
+          raise "Element \"#{selector}\" not displayed!" unless element.displayed?
           begin
-            element.clear if element.attribute('type') != 'file'
+            @@driver.action.move_to(element).perform
+            element.clear
           rescue
             #skip this
           end
-          driver.find_element(:css => selector).send_keys((postfix.nil? ? value : value+"_"+name))
+          element.send_keys(value)
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
+        end      
+      end
+#Навести курсор на элемент.
+#@param selector [String] css селектор
+#       @example
+#       context "Example" do
+#     
+#         should 'TODO somethin' do
+#           Unit.hover_over_element "div.menu"
+#           Unit.click "a.some_url"
+#           ...
+      def hover_over_element selector
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        if check_element(selector)
+          element = @@driver.find_element(:css => selector)
+          @@driver.action.move_to(element).perform
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
         end
       end
-      threads.each(&:join)
-      return result
-    end
-#Возвращает состояние для radio и checkbox. Используется только в блоках should или setup.
-# @param selector [String] css селектор
-# @return [[Boolean,String/Hash] первый аргумент - статус выполнения, второй - хеш вида !{имя_браузера=>статус} (если radio или checkbox: 1. checked, то статус принимает значение true; 2. unchecked, то статус принимает значение false), или, если первый аргумент равен false - содержит текст ошибки.
+#Получить значение атрибута элемента.
+#@param selector [String] css селектор элемента
+#@param attr [String] атрибут
+#@return [String] значение атрибута
+#@example
+#       context "Example" do
+#     
+#         should 'TODO somethin' do
+#           link = Unit.get_attr "a.class", 'href'
+#           ...
+      def get_attr selector, attr
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        raise(ArgumentValueError, "Invalid value \"#{attr}\" of argument 'attr'") unless attr.class == String
+        if check_element(selector)
+          return @@driver.find_element(:css => selector).attribute(attr)
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
+        end
+      end
+#Получить открытый URL текущего окна.
+#@return [String] URL
+#@example
+#       context "Example" do
+#     
+#         should 'TODO somethin' do
+#           current_location = Unit.get_location
+#           ...
+      def get_location
+        @@driver.current_url
+      end
+#Получить тег элемента.
+#@param selector [String] css селектор элемента
+#@return [String] тег
+#@example
+#       context "Example" do
+#     
+#         should 'TODO somethin' do
+#          tag_name = Unit.get_tag '.element_class'
+#           ...
+      def get_tag selector
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        if check_element(selector)
+          return @@driver.find_element(:css => selector).tag_name
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
+        end
+      end
+#Получить текст, отображаемый на элементе или группе элементов.
+#@param selector [String] css селектор элемента
+#@param all [String] установить true, если необходимо получить текст для группы элементов
+#@return [String/Array] текст, или массив строк, если all установлен как true
+#@example
+#       context "Example" do
+#     
+#         should 'TODO somethin' do
+#           text = Unit.get_text 'div.element_class'
+#           text = Unit.get_text('div.other_class', true)
+#           ...
+      def get_text selector, all = nil
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        raise(ArgumentValueError, "Invalid value \"#{all}\" of argument 'all'") unless [NilClass, FalseClass, TrueClass].include?(all.class)
+        if check_element(selector)
+          unless all
+            return @@driver.find_element(:css => selector).text
+          else
+            elems = @@driver.find_elements(:css => selector)
+            array = []
+            elems.each do |elem|
+              array.push elem.text
+            end
+            return array
+          end
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
+        end
+      end
+#Переход по ссылке. При переходе функция дожидается полной загрузки страницы в пределах времени pageload_timeout.
+#@param url [String] ссылка, по которой необходимо перейти.
+#@example
+#       context "Example" do
+#     
+#         setup do
+#           Unit.go_to @@somePage
+#         end
+#         ...
+#@see refresh
+      
+      def go_to url
+        raise(ArgumentValueError, "Invalid value of argument 'selector'") unless url.class == String
+        wait = Selenium::WebDriver::Wait.new
+        @@driver.navigate.to url 
+        wait.until { @@driver.execute_script("return window.onload = function(){}; ") }
+      end
+
+#Проверяет, открыто ли окно с номером num.
+#@param num [Fixnum] номер окна
+#@return [FalseClass/TrueClass]
+#@example
+#       context "Example" do
+#     
+#         should 'TODO somethin' do
+#           ...
+#           assert_equal false, Unit.opened?(2), 'Window not closed!'
+      def opened? num
+        raise(ArgumentValueError, "Invalid value of argument 'num'") unless num.class == Fixnum
+        update_window_handles
+        return @@handles.keys.include?(num.to_s)
+      end
+#Нажать клавишу на клавиатуре. Для клавиш, отличных от алфовитно-цифровых, в качестве параметра следует передавать значение типа Symbol, соответствующее необходимой клавише. Допустимые значения: :cancel,:help,:backspace,:tab,:clear,:return,:enter,:shift,:left_shift,:control,:left_control,
+#:alt,:left_alt,:pause,:escape,:space,:page_up,:page_down,:end,:home,:left,:arrow_left,:up,:arrow_up,
+#:right,:arrow_right,:down,:arrow_down,:insert,:delete,:semicolon,:equals,:numpad0,:numpad1,:numpad2,
+#:numpad3,:numpad4,:numpad5,:numpad6,:numpad7,:numpad8,:numpad9,:multiply,:add,:separator,:subtract,
+#:decimal,:divide,:f1,:f2,:f3,:f4,:f5,:f6,:f7,:f8,:f9,:f10,:f11,:f12,:meta,:command
+#@param key [String/Symbol] клавиша
+#@param state [Symbol] состояние. Допустимые значения: :down(нажать), :up(отпустить). Если параметр не будет указан, то будет сделано обычное нажатие.
+      def press_key key, state = nil
+        unless [
+                :null,:cancel,:help,:backspace,:tab,:clear,:return,:enter,:shift,:left_shift,:control,:left_control,
+                :alt,:left_alt,:pause,:escape,:space,:page_up,:page_down,:end,:home,:left,:arrow_left,:up,:arrow_up,
+                :right,:arrow_right,:down,:arrow_down,:insert,:delete,:semicolon,:equals,:numpad0,:numpad1,:numpad2,
+                :numpad3,:numpad4,:numpad5,:numpad6,:numpad7,:numpad8,:numpad9,:multiply,:add,:separator,:subtract,
+                :decimal,:divide,:f1,:f2,:f3,:f4,:f5,:f6,:f7,:f8,:f9,:f10,:f11,:f12,:meta,:command
+               ].include? key
+          raise(ArgumentValueError, "Invalid value \"#{key}\" of argument 'key'") unless /^[A-Za-z0-9]$/ === key.to_s
+        end
+        raise(ArgumentValueError, "Invalid value \"#{state}\" of argument 'state'") unless [:up, :down, nil].include?(state)
+        case state
+        when :up
+          @@driver.action.key_up(key).perform
+        when :down
+          @@driver.action.key_down(key).perform
+        when nil
+          @@driver.action.send_keys(key).perform
+        end
+      end
+#Обновить текущее окно
+      def refresh
+        @@driver.navigate.refresh
+      end
+#Сделать скриншот. Файл будет сохранен в каталоге, из которого был произведен запуск теста с расширением .png.
+#@param filename [String] имя файла
+      def screenshot filename
+        raise(ArgumentValueError, "Invalid value \"#{filename}\" of argument 'filename'") unless filename.class == String
+        @@driver.save_screenshot("./"+filename+".png") 
+      end
+#Устанавливает используемый для тестирования браузер. Необходимо использовать перед блоками тестов.
+#@param browser [Symbol] браузер. Допустимые значения: :firefox, :chrome, :ie, :safari, :phantomjs.
 #@example
 #       class SelWeT::Unit
-#   
-#         ...
-#   
+#               set_browser :firefox
+#               ...
+      def set_browser browser
+        raise(ArgumentValueError, "Invalid value \"#{browser}\" of argument 'browser'") unless [:firefox, :chrome, :ie, :safari, :phantomjs].include? browser
+        @@browser = browser
+      end
+#Выбирает элементы в select по индексам. Нумирация начинается с 0. Если в multiple select необходимо выбрать несколько элементов, то нужно передать массив индексов. 
+#@param selector [String] css селектор
+#@param items [Fixnum/Array] индекс или массив индексов элементов, которые необходимо выбрать
+#@example
 #          context "Example" do
 #     
-#            should 'TODO something' do
-#              Unit.go_to @@somePage
-#              ...
-#              status, check = Unit.get_status 'input[type="checkbox"]'
-#          ...
-    def get_status selector
-      threads = []
-      status, message, data = check_element selector
-      return [false, 'get_status: Element not uniq!'] if data.values[0].size>1
-      return [false, "get_status: "+message, tag] unless status
-      status = true
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          element = driver.find_element(:css => selector)
-          Thread.current['name'] = name
-          if element.attribute('type') == 'checkbox' or element.attribute('type') == 'radio'
-            Thread.current['status'] = driver.find_element(:css => selector).selected?.inspect
-          else
-            Thread.current['status'] = "#{element.attribute('type')} is not a checkbox or radio!"
-            status = false
-          end
-        end
-      end
-      threads.each(&:join)
-      statuses = {}
-      threads.each do |i|
-        statuses[i['name']] = (i['status'] == "true" ? true : i['status'] == "false" ? false : i['status'])
-      end
-      return [status, statuses]
-    end
-#Заполнить и отправить форму.
-# @param selector [String] css селектор формы.
-# @param fields [Hash] хеш. В качестве ключа передается css селектор элемента (String), в качестве значения: 1) для текстовых полей - строка со значением(String). Если в разных браузерах требуется ввести разные значения, то вначале строки необходимо поставить символ &. Тогда в поле запишется данная строка без символа &, но в конце будет добавлен постфикс "_имя браузера"; 2) для checkbox, radio и кнопок(не submit!) - значение :click; 3) для кнопки отправки формы - :submit. Если не будет указана кнопка для отправки формы, то форма всё равно будет отправлена; 4) для select - массив значений(String), которые необходимо выбрать; 5) для file - путь до файла.
-# @return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст ошибки, если она возникнет.
-#@example
-#       class SelWeT::Unit
-#   
-#         ...
-#   
-#         context "Example" do
-#     
-#           should "Successfull authorization" do
-#             status, error = Unit.post_form ".form", {'#email' => 'admin@example.ru', '#password' => 'admin', '.checkbox' => :click, '.submit'=>:submit}
-#         ...
-#@see click
-#@see fill
-    def post_form selector, fields = nil
-      result = [true, ""]
-      fields = {} if fields.nil?
-      status, message, data = check_element selector
-      unless status
-        return [false, message]
-      end
-      data.each do |key, value|
-        if value.size>1
-          return [false, "post_form: (#{key}) Found more than one form with selector '#{selector}'"] 
-        end
-      end
-      check_elements = ''
-      fields.keys.each do |key|
-        status, message, data = check_element key
-        unless status
-          check_elements = (check_elements.empty? ? message+' : '+key+"\n" : check_elements+message+' : '+key+"\n")
-        end
-        data.each do |browser, value|
-          if value.size>1
-            check_elements = (check_elements.empty? ? "post_form:(#{browser}) Element of form not uniq : "+key+"\n" : check_elements+"post_form:(#{browser}) Element of form not uniq : "+key+"\n")
-          end
-        end
-      end
-      unless check_elements.empty?
-        return [false, check_elements]
-      end
-      submit_button = nil
-      bad_args = {}
-      fields.each do |key, value|
-        if value.class != String and value.class != Symbol
-          bad_args[key] = value
-        end
-        if value.class == Symbol
-          if value != :click and value != :submit
-            bad_args[key] = value
-          end
-        end
-      end
-      return [false, 'post_form: Bad args was passed: '+bad_args.to_s] unless bad_args.empty?
-      fields.each do |key, value|
-        if value == :click
-          click key
-        end
-        if value == :submit
-          submit_button = key
-        end
-        if value.class == Array
-          status, error = set_select_items(key, value)
-          return [false, error] unless status
-        end          
-      end
-      fields.delete_if { |key,value| value == :click or value == :submit or value.class == Array }
-      threads = []
-      errors = nil
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          form = driver.find_element(:css => selector)
-          fields.each do |key, value|
-            tag = form.find_element(:css => key).tag_name
-            errors = true if tag == 'select'
-            begin
-              form.find_element(:css => key).clear
-            rescue
-              #skip this
-            end
-            if value[0] == '&'
-              send_value = value+'_'+name
-              send_value.slice! '&'
-              form.find_element(:css => key).send_keys(send_value)
+#            should "TODO something" do
+#              Unit.set_select_items 'select[name="some_name"]', 2
+#              Unit.set_select_items 'select[name="other_name"]', [1,3,6]
+#          ...   
+      def set_select_items selector, items
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        raise(ArgumentValueError, "Invalid value \"#{items}\" of argument 'items'") unless [Array, Fixnum].include?(items.class)
+        if check_element(selector)
+          select = Selenium::WebDriver::Support::Select.new(@@driver.find_element(:css => selector))
+          raise(ArgumentValueError, "Invalid value \"#{items}\" of argument 'items' for not multiple select") if items.class == Array and !select.multiple?
+          if select.multiple?
+            select.deselect_all
+            if items.class == Array
+              items.each do |item|
+                raise(ArgumentValueError, "Invalid value \"#{items}\" of argument 'items'") unless item.class == Fixnum
+                select.select_by(:index, item)
+              end
             else
-              form.find_element(:css => key).send_keys(value)
+              select.select_by(:index, items)
             end
-          end
-          unless errors
-            form.submit unless submit_button
-          end
-        end
-      end
-      threads.each(&:join)
-      return [false, 'post_form: For "select" you must pass array with selected values!'] if errors
-      click submit_button unless !submit_button
-      return result
-    end
-#Сверяет переданный url с текущим. Используется только в блоках should или setup.
-# @param url [String] url, с которым будет сравинваться текущий url.
-# @return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст ошибки, если она возникнет.
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
-#          context "Example" do
-#     
-#            should 'Correct link' do
-#              Unit.go_to @@somePage
-#              ...
-#              status, error = Unit.check_location 'http://www.example.com/other_page'
-#          ...
-#@see go_to
-#@see get_location
-    def check_location url
-      result = [true, ""]
-      threads = []
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          unless driver.current_url == url
-            Thread.current["value"] = name
-            Thread.current["real"] = driver.current_url
-          end
-        end
-      end
-      threads.each(&:join)
-      threads.each do |i|
-        unless i["value"].nil?
-          result[1] = (result[1].empty? ? "Wrong location '#{i['real']}': "+i["value"].to_s : result[1]+" "+i["value"].to_s)
-        end
-      end
-      unless result[1].empty?
-        result[0] = false
-      end
-      return result
-    end
-#Возвращает текущий url. Используется только в блоках should или setup.
-# @return [Hash] ключ - имя браузера, значение - URL.
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
-#          context "Example" do
-#     
-#            should 'Correct link' do
-#              Unit.go_to @@somePage
-#              ...
-#              location = Unit.get_location
-#          ...
-#@see check_location
-#@see go_to
-    def get_location
-      result = {}
-      threads = []
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          Thread.current["name"] = name
-          Thread.current["url"] = driver.current_url
-        end
-      end
-      threads.each(&:join)
-      threads.each do |i|
-        result[i['name']] = i['url']
-      end
-      return result
-    end
-#Сохраняет скриншот текущего состояния браузеров рядом со скриптом. Имя файла будет иметь следующий вид: browsername_filename.png
-# @param filename [String] часть имени выходного файла.
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
-#          context "Example" do
-#     
-#            should 'Make screenshot' do
-#              Unit.go_to @@somePage
-#              ...
-#              Unit.screenshot 'TestScreenshot'
-#              ... 
-    def screenshot filename
-      threads = []
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          driver.save_screenshot("./"+name+"_"+filename+".png")
-        end
-      end
-      threads.each(&:join)
-    end
-#Открывает ссылку в новом окне и переключается на него.
-#@param selector [String] css селектор ссылки.
-# @return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст ошибки, если она возникнет.
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
-#          context "Example" do
-#     
-#            should 'TODO somethin' do
-#              Unit.go_to @@somePage
-#              ...
-#              Unit.in_new_window 'a.someclass'
-#              ... 
-#@see switchToWindow
-#@see close_window
-    def in_new_window selector
-      threads = []
-      not_opened = false
-      status, message = check_element selector
-      unless status
-        return [false, message]
-      end
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          a = driver.find_element :css => selector
-          if @@win_num == 0
-            @@opened_window[name] = {@@win_num => driver.window_handle}
-          end
-          driver.action.key_down(:shift).perform
-          a.click
-          driver.action.key_up(:shift).perform
-          old_handle = @@opened_window[name].values
-          new_handle = (driver.window_handles - old_handle)[0]
-          unless new_handle.nil?
-            driver.switch_to.window new_handle
-            @@opened_window[name][@@win_num+1] = new_handle
           else
-            not_opened = true
+            select.select_by(:index, items)
           end
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
+        end 
+      end
+#Устанавливает URL для Selenium Server или PhantomJS. Необходимо использовать перед блоками тестов.
+#Если параметр не указан, то будет использован локальный браузер
+#@param url [String] URL запущенного Selenium Server
+#@example
+#       class SelWeT::Unit
+#               set_browser :firefox
+#               set_server_url "http://somewhere:4444/wd/hub"
+#               ...
+      def set_server_url url
+        raise(ArgumentValueError, "Invalid value \"#{url}\" of argument 'url'") unless url.class == String
+        @@server_url = url
+      end
+#Устанавливает максимально допустимое время ожидания элемента (по умолчанию 5 секунд). Необходимо использовать перед блоками тестов.
+#@param sec [Fixnum] время в секундах.
+#@example
+#       class SelWeT::Unit
+#               set_browser :firefox
+#               set_timewait 15
+#               ...
+#@see set_pageload_timewait
+      def set_timewait sec
+        raise(ArgumentValueError, "Invalid value \"#{sec}\" of argument 'sec'") unless sec.class == Fixnum
+        @@timewait = sec
+      end
+#Устанавливает максимально допустимое время ожидания загрузки страницы(по умолчанию 5 секунд). Может отличаться от времени ожидания элементов. Необходимо использовать перед блоками тестов.
+#@param sec [Fixnum] время в секундах.
+#@example
+#       class SelWeT::Unit
+#               set_browser :firefox
+#               set_timewait 3
+#               set_pageload_timewait 15
+#               ...
+#@see set_timewait
+      def set_pageload_timewait sec
+        raise(ArgumentValueError, "Invalid value \"#{sec}\" of argument 'sec'") unless sec.class == Fixnum
+        @@pageload_timewait = sec
+      end
+
+#Закрывает браузер после выполнения всех тестов.
+#Внутренний метод. Выполняется автоматически.    
+      def shutdown
+        if @@driver
+          @@driver.close
+          @@driver.quit
         end
       end
-      threads.each(&:join)
-      return [false, "Window not opened!"] if not_opened
-      @@win_num += 1
-      return true
-    end
+#Запускает браузер перед выполнением тестов.
+#Выполняется автоматически непосредственно перед запуском тестов.
+      def startup
+        @@driver = nil
+        url = nil
+        unless @@server_url
+          puts 'URL not specified! Local browser will be used.'
+        else
+          url = @@server_url
+        end
+        if @@browser.nil?
+          raise ArgumentError.new('Browser not specified!')
+        end
+        if url
+          if @@browser == :phantomjs
+            @@driver = Selenium::WebDriver.for(:remote, :url => url)
+          else
+            @@driver = Selenium::WebDriver.for(:remote, :desired_capabilities => @@browser, :url => url)
+          end
+        else
+          @@driver = Selenium::WebDriver.for @@browser
+        end
+        @@driver.manage.timeouts.implicit_wait = @@timewait
+        @@driver.manage.timeouts.script_timeout = @@timewait
+        @@driver.manage.timeouts.page_load = @@pageload_timewait
+        @@driver.manage.window.maximize
+        @@handles["0"] = @@driver.window_handle
+      end
 #Переключиться на другое окно. Окна нумируются в порядке их открытия. Нумирация начинается с 0.
 #@param num [Integer] номер окна.
-# @return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст ошибки, если она возникнет.
 #@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
 #          context "Example" do
 #     
 #            should 'TODO something' do
-#              Unit.in_new_window 'a.someclass'
 #              ...
 #              Unit.switch_to_window 0
 #              Unit.close_window 1
 #              ... 
-#@see in_new_window
 #@see close_window
-    def switch_to_window num
-      threads = []
-      status = true
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          if @@opened_window[name].has_key? num
-            driver.switch_to.window @@opened_window[name][num]
-          else
-            status = false
-          end
-        end
+      def switch_to_window num
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'num'") unless num.class == Fixnum
+        update_window_handles
+        raise "Invalid window number" unless @@handles.keys.include?(num.to_s)
+        @@driver.switch_to.window @@handles[num.to_s]
       end
-      threads.each(&:join)
-      return status, (status ? "" : "Invalid num: '#{num}'")
-    end
-#Закрыть окно с номером num. Окна нумируются в порядке их открытия. Нумирация начинается с 0. Если необходимо закрыть текущее окно, то перед закрытием необходимо переключиться на другое окно.
-#@param num [Integer] номер окна.
-# @return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст ошибки, если она возникнет.
+#Переключиться на iframe. Для дальнейшего взаимодействия с основной страницей необходимо выполнить {to_page}.
+#@param selector [String] css селектор на iframe
 #@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
+#        ...   
 #          context "Example" do
 #     
-#            should 'TODO somethin' do
-#              Unit.close_window 2
-#              ... 
-#@see in_new_window
-#@see switch_to_window
-    def close_window num
-      threads = []
-      status = true
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          current = driver.window_handle
-          if current != @@opened_window[name][num]
-            driver.switch_to.window @@opened_window[name][num]
-            driver.close
-            @@opened_window[name].delete_if do |key, value|
-              key == num
-            end
-            driver.switch_to.window current
-          else
-            status = false
-          end
+#            should 'show popup' do
+#              Unit.to_frame 'iframe#frame1'
+#          ...
+#@see to_page
+      def to_frame selector
+        raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
+        if check_element(selector)
+          element = @@driver.find_element(:css => selector)
+          @@driver.action.move_to(element).perform
+          @@driver.switch_to.frame element
+        else
+          raise(ElementIsMissingError, "Element #{selector} is missing")
         end
       end
-      threads.each(&:join)
-      if status
-        return true
-      else
-        return [false, "You must switch to other window before closing this window"]
-      end
-    end
-#Навести курсор на элемент.
-#@param selector [String] css селектор элемента.
-#@return [[Boolean,String]] Первый аргумент - статус выполнения, второй - текст ошибки, если она возникнет.
+#Переключиться на основную страницу.
 #@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
+#         ...
 #          context "Example" do
 #     
-#            should 'TODO somethin' do
-#              Unit.hover_over_element "div.menu"
-#              Unit.click "a.some_url"
-#              ... 
-    def hover_over_element selector
-      status, message = check_element selector
-      unless status
-        return [false, message]
-      end
-      threads = []
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          element = driver.find_element(:css => selector)
-          driver.action.move_to(element).perform
-        end
-      end
-      threads.each(&:join)
-      return true
-    end
-#Получить заголовок окна.
-#@return Hash ключ - имя браузера, аргумент - title.
-#@example
-#       class SelWeT::Unit
-#   
-#          set_browsers [:firefox, :chrome]
-#          set_selenium_server_url 'http://localhost:4444/wd/hub'
-#          @@somePage = 'http://www.example.com'
-#   
-#          context "Example" do
-#     
-#            should 'TODO somethin' do
+#            should 'Show popup' do
 #              ...
-#              titles = Unit.window_title
-#              ... 
-    def window_title
-      threads = []
-      status = true
-      @@driver.each do |name, driver|
-        threads << Thread.new do
-          Thread.current["name"] = name
-          Thread.current["title"] = driver.title
+#              Unit.to_page
+#          ...
+#@see to_frame
+      def to_page
+        @@driver.switch_to.default_content 
+      end
+#Обновить список handle. Внутренняя функция.
+      def update_window_handles
+        new_handles = @@driver.window_handles - @@handles.values
+        old_handles = @@handles.values - @@driver.window_handles
+        @@handles.delete_if{ |key, value| old_handles.include? value }
+        unless new_handles.empty?
+          num = @@handles.keys.max.to_i+1
+          new_handles.each do |handle|
+            @@handles[num.to_s] = handle
+            num += 1
+          end
         end
       end
-      threads.each(&:join)
-      titles = {}
-      threads.each do |i|
-        titles[i["name"]] = i["title"]
+#Получить залоговок текущего окна.
+#@return [String] заголовок
+      def window_title
+        @@driver.title
       end
-      return titles
+
     end
-    
+
   end
-   
-end
+
 end
