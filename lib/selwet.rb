@@ -159,7 +159,9 @@ module SelWeT
         if check_element(selector) 
           element = @@driver.find_element(:css => selector)
           raise "Element \"#{selector}\" is not displayed!" unless element.displayed?
+          wait = Selenium::WebDriver::Wait.new
           element.click
+          wait.until { @@driver.execute_script("return window.onunload = function(){return window.onload}; ") }
         else
           raise(ElementIsMissingError, desc ? "Element #{desc} is missing" :"Element #{selector} is missing")
         end
