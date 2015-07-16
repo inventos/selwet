@@ -161,6 +161,9 @@ module SelWeT
           raise "Element \"#{selector}\" is not displayed!" unless element.displayed?
           wait = Selenium::WebDriver::Wait.new
           element.click
+          if (@@browser == :chrome)
+                sleep 1
+          end
           wait.until { @@driver.execute_script("return window.onunload = function(){return window.onload}; ") }
         else
           raise(ElementIsMissingError, desc ? "Element #{desc} is missing" :"Element #{selector} is missing")
@@ -349,7 +352,10 @@ module SelWeT
       def go_to url
         raise(ArgumentValueError, "Invalid value of argument 'selector'") unless url.class == String
         wait = Selenium::WebDriver::Wait.new
-        @@driver.navigate.to url 
+        @@driver.navigate.to url
+        if (@@browser == :chrome)
+                sleep 1
+        end
         wait.until { @@driver.execute_script("return window.onload = function(){}; ") }
       end
 
