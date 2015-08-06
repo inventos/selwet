@@ -50,6 +50,15 @@ module SelWeT
     class ElementIsMissingError < Error
     end
 
+    class ConnectionRefusedError < Error
+    end
+
+    class PageLoadError < Error
+    end
+
+    class ElementIsNotDisplayedError < Error
+    end
+
     class << self
 #Кликает на кнопку 'Cancel' в окне алерта.
 #@example
@@ -153,22 +162,35 @@ module SelWeT
 #         ...
 #@see alert_ok
 #@see alert_cancel
-      def click selector, desc = nil
+ 
+
+def click selector, desc = nil
         raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
         raise(ArgumentValueError, "Invalid value \"#{desc}\" of  argument 'desc'") unless [String, NilClass].include?(desc.class)
-        if check_element(selector) 
-          element = @@driver.find_element(:css => selector)
-          raise "Element \"#{selector}\" is not displayed!" unless element.displayed?
-          wait = Selenium::WebDriver::Wait.new
-          element.click
-          if (@@browser == :chrome)
-                sleep 1
-          end
-          wait.until { @@driver.execute_script("return window.onunload = function(){return window.onload}; ") }
-        else
-          raise(ElementIsMissingError, desc ? "Element #{desc} is missing" :"Element #{selector} is missing")
-        end
+        i = 0
+            if (check_element(selector))
+                begin    
+                    element = @@driver.find_element(:css => selector)
+                    raise(ElementIsNotDisplayedError, "Element \"#{selector}\" is not displayed") unless displayed?(selector)
+                    element.click
+                    if (@@browser == :chrome)
+                        sleep 1
+                    end
+                    wait = Selenium::WebDriver::Wait.new
+                    wait.until { @@driver.execute_script("return window.onunload = function(){return window.onload}; ") }
+                rescue ElementIsNotDisplayedError
+                    i = i + 1
+                    if i <= 2 
+                        sleep @@timewait
+                        retry
+                    else
+                        raise(ElementIsNotDisplayedError, "Element \"#{selector}\" is not displayed") unless displayed?(selector)
+                end
+            end
+         end
       end
+
+
 #Закрыть окно с номером num. Окна нумируются в порядке их открытия. Нумирация начинается с 0. Если необходимо закрыть текущее окно, то перед закрытием необходимо переключиться на другое окно. После закрытия окна происходить их переупорядочивание. Так, например, если было закрыто первое окно (num = 0), то второе окно станет первым (было num = 1, стало num = 0) и т.д.
 #@param num [Fixnum] номер окна
 #@example
@@ -230,18 +252,30 @@ module SelWeT
       def fill_in selector, value
         raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
         raise(ArgumentValueError, "Invalid value \"#{value}\" of argument 'value'") unless value.class == String
+        i = 0
         if check_element(selector)
-          element = @@driver.find_element(:css => selector)
-          raise "Element \"#{selector}\" not displayed!" unless element.displayed?
-          begin
-            @@driver.action.move_to(element).perform
-            element.clear
-          rescue
+            begin
+                element = @@driver.find_element(:css => selector)
+                raise(ElementIsNotDisplayedError, "Element \"#{selector}\" is not displayed") unless displayed?(selector)
+                begin
+                    @@driver.action.move_to(element).perform
+                    element.clear
+                rescue
             #skip this
-          end
-          element.send_keys(value)
+                end
+                element.send_keys(value)
+            rescue ElementIsNotDisplayedError
+                i = i + 1
+                if i <= 2
+                    sleep @@timewait
+                    retry
+                else
+                    raise(ElementIsNotDisplayedError, "Element \"#{selector}\" is not displayed") unless displayed?(selector)
+                end
+            end
+        
         else
-          raise(ElementIsMissingError, "Element #{selector} is missing")
+            raise(ElementIsMissingError, "Element #{selector} is missing")
         end      
       end
 #Навести курсор на элемент.
@@ -348,17 +382,26 @@ module SelWeT
 #         end
 #         ...
 #@see refresh
-      
       def go_to url
         raise(ArgumentValueError, "Invalid value of argument 'selector'") unless url.class == String
         wait = Selenium::WebDriver::Wait.new
-        @@driver.navigate.to url
-        if (@@browser == :chrome)
+        i = 0
+        begin            
+            @@driver.navigate.to url
+            if (@@browser == :chrome)
                 sleep 1
+            end
+            wait.until { @@driver.execute_script("return window.onload = function(){}; ") }
+            i = i + 1 
+        rescue Exception => e 
+            if i <= 2 
+                @@driver.navigate.refresh
+                retry
+            else 
+                raise(PageLoadError, "Page #{url} didn't load within PageLoadTimeOut time")
+            end
         end
-        wait.until { @@driver.execute_script("return window.onload = function(){}; ") }
-      end
-
+    end
 #Проверяет, открыто ли окно с номером num.
 #@param num [Fixnum] номер окна
 #@return [FalseClass/TrueClass]
@@ -502,25 +545,35 @@ module SelWeT
 #Запускает браузер перед выполнением тестов.
 #Выполняется автоматически непосредственно перед запуском тестов.
       def startup
-        @@driver = nil
-        url = nil
-        unless @@server_url
-          puts 'URL not specified! Local browser will be used.'
-        else
-          url = @@server_url
+        begin
+            @@driver = nil
+            url = nil
+            unless @@server_url
+                puts 'URL not specified! Local browser will be used.'
+            else
+                url = @@server_url
+            end
+            if @@browser.nil?
+                raise ArgumentError.new('Browser not specified!')
+            end
+            if url
+                if @@browser == :phantomjs
+                    @@driver = Selenium::WebDriver.for(:remote, :url => url)
+                else
+                    @@driver = Selenium::WebDriver.for(:remote, :desired_capabilities => @@browser, :url => url)
+                end
+            else
+                @@driver = Selenium::WebDriver.for @@browser
+            end
+
+            if (@@driver == nil)
+                raise("Can't create driver for #{@@browser.to_s}")
+            end
+
+        rescue Errno::ECONNREFUSED
+            raise(ConnectionRefusedError, "Connection refused on #{@@server_url}\n\n") 
         end
-        if @@browser.nil?
-          raise ArgumentError.new('Browser not specified!')
-        end
-        if url
-          if @@browser == :phantomjs
-            @@driver = Selenium::WebDriver.for(:remote, :url => url)
-          else
-            @@driver = Selenium::WebDriver.for(:remote, :desired_capabilities => @@browser, :url => url)
-          end
-        else
-          @@driver = Selenium::WebDriver.for @@browser
-        end
+
         @@driver.manage.timeouts.implicit_wait = @@timewait
         @@driver.manage.timeouts.script_timeout = @@timewait
         @@driver.manage.timeouts.page_load = @@pageload_timewait
