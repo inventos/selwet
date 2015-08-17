@@ -387,7 +387,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_attr-class_method" title="get_attr (class method)">+ (String) <strong>get_attr</strong>(selector, attr) </a>
+      <a href="#get_attr-class_method" title="get_attr (class method)">+ (String/Array) <strong>get_attr</strong>(selector, attr, all = nil) </a>
     
 
     
@@ -435,7 +435,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_tag-class_method" title="get_tag (class method)">+ (String) <strong>get_tag</strong>(selector) </a>
+      <a href="#get_tag-class_method" title="get_tag (class method)">+ (String/Array) <strong>get_tag</strong>(selector, all = nil) </a>
     
 
     
@@ -1871,7 +1871,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_attr-class_method">
   
-    + (<tt>String</tt>) <strong>get_attr</strong>(selector, attr) 
+    + (<tt>String/Array</tt>) <strong>get_attr</strong>(selector, attr, all = nil) 
   
 
   
@@ -1895,6 +1895,8 @@
 
   should &#39;TODO somethin&#39; do
     link = Unit.get_attr &quot;a.class&quot;, &#39;href&#39;
+    ...
+    all_links = Unit.get_arrt &quot;a.class&quot;, &#39;href&#39;, true
     ...</code></pre>
     
   </div>
@@ -1933,6 +1935,25 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>all</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Указывает, надо ли вернуть все найденные элементы, соответствующие
+selector. По умлочанию - nil.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -1941,13 +1962,13 @@
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>String/Array</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>значение атрибута</p>
+<p>значение атрибута (при all == false) или набор атрибутов (при all == true)</p>
 </div>
       
     </li>
@@ -1973,24 +1994,42 @@
       <pre class="lines">
 
 
-309
-310
-311
-312
 313
 314
 315
 316
-317</pre>
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 309</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 313</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_attr'>get_attr</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_attr'>attr</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_attr'>get_attr</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_attr'>attr</span><span class='comma'>,</span> <span class='id identifier rubyid_all'>all</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;selector&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selector'>selector</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr'>attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;attr&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_attr'>attr</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_check_element'>check_element</span><span class='lparen'>(</span><span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_attribute'>attribute</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_all'>all</span>
+      <span class='kw'>return</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_attribute'>attribute</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_elems'>elems</span> <span class='op'>=</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_array'>array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_elems'>elems</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_elem'>elem</span><span class='op'>|</span>
+        <span class='id identifier rubyid_array'>array</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_elem'>elem</span><span class='period'>.</span><span class='id identifier rubyid_attribute'>attribute</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='kw'>return</span> <span class='id identifier rubyid_array'>array</span>
+    <span class='kw'>end</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ElementIsMissingError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Element </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'> is missing</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -2056,12 +2095,12 @@
       <pre class="lines">
 
 
-326
-327
-328</pre>
+339
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 339</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_location'>get_location</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_current_url'>current_url</span>
@@ -2074,7 +2113,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_tag-class_method">
   
-    + (<tt>String</tt>) <strong>get_tag</strong>(selector) 
+    + (<tt>String/Array</tt>) <strong>get_tag</strong>(selector, all = nil) 
   
 
   
@@ -2098,7 +2137,9 @@
 
   should &#39;TODO somethin&#39; do
    tag_name = Unit.get_tag &#39;.element_class&#39;
-    ...</code></pre>
+   ...
+   all_tags = Unit.get_tag &#39;.element_class&#39;, true
+   ...</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -2120,6 +2161,25 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>all</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Указывает, надо ли вернуть все найденные элементы, соответствующие
+selector. По умлочанию - nil.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -2128,13 +2188,13 @@
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>String/Array</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>тег</p>
+<p>тег (при all == false) или набор тегов (при all == true)</p>
 </div>
       
     </li>
@@ -2160,22 +2220,40 @@
       <pre class="lines">
 
 
-338
-339
-340
-341
-342
-343
-344
-345</pre>
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 354</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_tag'>get_tag</span> <span class='id identifier rubyid_selector'>selector</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_tag'>get_tag</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_all'>all</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;selector&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selector'>selector</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_check_element'>check_element</span><span class='lparen'>(</span><span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_tag_name'>tag_name</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_all'>all</span>
+      <span class='kw'>return</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_tag_name'>tag_name</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_elems'>elems</span> <span class='op'>=</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:css</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_selector'>selector</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_array'>array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_elems'>elems</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_elem'>elem</span><span class='op'>|</span>
+        <span class='id identifier rubyid_array'>array</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_elem'>elem</span><span class='period'>.</span><span class='id identifier rubyid_tag_name'>tag_name</span>
+      <span class='kw'>end</span>
+      <span class='kw'>return</span> <span class='id identifier rubyid_array'>array</span>    
+    <span class='kw'>end</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ElementIsMissingError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Element </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'> is missing</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -2293,27 +2371,27 @@
       <pre class="lines">
 
 
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374</pre>
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 357</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 382</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_text'>get_text</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_all'>all</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;selector&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selector'>selector</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
@@ -2418,29 +2496,29 @@
       <pre class="lines">
 
 
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404</pre>
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 385</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 410</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_go_to'>go_to</span> <span class='id identifier rubyid_url'>url</span>
     <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value of argument &#39;selector&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
@@ -2640,14 +2718,14 @@ Unit.click “a.some_url”  …</p>
       <pre class="lines">
 
 
-414
-415
-416
-417
-418</pre>
+439
+440
+441
+442
+443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 414</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 439</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_opened?'>opened?</span> <span class='id identifier rubyid_num'>num</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value of argument &#39;num&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_num'>num</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Fixnum</span>
@@ -2744,29 +2822,29 @@ Unit.click “a.some_url”  …</p>
       <pre class="lines">
 
 
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445</pre>
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 426</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 451</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_press_key'>press_key</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>unless</span> <span class='lbracket'>[</span>
@@ -2819,12 +2897,12 @@ Unit.click “a.some_url”  …</p>
       <pre class="lines">
 
 
-447
-448
-449</pre>
+472
+473
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 472</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_navigate'>navigate</span><span class='period'>.</span><span class='id identifier rubyid_refresh'>refresh</span>
@@ -2894,13 +2972,13 @@ Unit.click “a.some_url”  …</p>
       <pre class="lines">
 
 
-452
-453
-454
-455</pre>
+477
+478
+479
+480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 452</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 477</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_screenshot'>screenshot</span> <span class='id identifier rubyid_filename'>filename</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_filename'>filename</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;filename&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
@@ -2981,13 +3059,13 @@ Unit.click “a.some_url”  …</p>
       <pre class="lines">
 
 
-462
-463
-464
-465</pre>
+487
+488
+489
+490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 462</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 487</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_browser'>set_browser</span> <span class='id identifier rubyid_browser'>browser</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_browser'>browser</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;browser&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='lbracket'>[</span><span class='symbol'>:firefox</span><span class='comma'>,</span> <span class='symbol'>:chrome</span><span class='comma'>,</span> <span class='symbol'>:ie</span><span class='comma'>,</span> <span class='symbol'>:safari</span><span class='comma'>,</span> <span class='symbol'>:phantomjs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_browser'>browser</span>
@@ -3078,13 +3156,13 @@ Unit.click “a.some_url”  …</p>
       <pre class="lines">
 
 
-532
-533
-534
-535</pre>
+557
+558
+559
+560</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 532</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 557</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_pageload_timewait'>set_pageload_timewait</span> <span class='id identifier rubyid_sec'>sec</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;sec&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_sec'>sec</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Fixnum</span>
@@ -3185,32 +3263,32 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498</pre>
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 476</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 501</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_select_items'>set_select_items</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_items'>items</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;selector&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selector'>selector</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
@@ -3312,13 +3390,13 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-507
-508
-509
-510</pre>
+532
+533
+534
+535</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 507</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 532</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_server_url'>set_server_url</span> <span class='id identifier rubyid_url'>url</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;url&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
@@ -3407,13 +3485,13 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-519
-520
-521
-522</pre>
+544
+545
+546
+547</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 519</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 544</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_timewait'>set_timewait</span> <span class='id identifier rubyid_sec'>sec</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;sec&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_sec'>sec</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Fixnum</span>
@@ -3451,15 +3529,15 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-539
-540
-541
-542
-543
-544</pre>
+564
+565
+566
+567
+568
+569</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 539</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 564</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_shutdown'>shutdown</span>
   <span class='kw'>if</span> <span class='cvar'>@@driver</span>
@@ -3499,31 +3577,6 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-547
-548
-549
-550
-551
-552
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
 572
 573
 574
@@ -3534,10 +3587,35 @@ multiple select необходимо выбрать несколько элем�
 579
 580
 581
-582</pre>
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 547</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 572</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_startup'>startup</span>
   <span class='kw'>begin</span>
@@ -3661,15 +3739,15 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-594
-595
-596
-597
-598
-599</pre>
+619
+620
+621
+622
+623
+624</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 594</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 619</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_switch_to_window'>switch_to_window</span> <span class='id identifier rubyid_num'>num</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;num&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_num'>num</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Fixnum</span>
@@ -3762,19 +3840,19 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-610
-611
-612
-613
-614
-615
-616
-617
-618
-619</pre>
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 610</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 635</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_frame'>to_frame</span> <span class='id identifier rubyid_selector'>selector</span>
   <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>ArgumentValueError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid value \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selector'>selector</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; of argument &#39;selector&#39;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selector'>selector</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
@@ -3838,12 +3916,12 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-630
-631
-632</pre>
+655
+656
+657</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 630</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 655</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_page'>to_page</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_switch_to'>switch_to</span><span class='period'>.</span><span class='id identifier rubyid_default_content'>default_content</span> 
@@ -3879,21 +3957,21 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645</pre>
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 634</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 659</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_window_handles'>update_window_handles</span>
   <span class='id identifier rubyid_new_handles'>new_handles</span> <span class='op'>=</span> <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_window_handles'>window_handles</span> <span class='op'>-</span> <span class='cvar'>@@handles</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span>
@@ -3956,12 +4034,12 @@ multiple select необходимо выбрать несколько элем�
       <pre class="lines">
 
 
-648
-649
-650</pre>
+673
+674
+675</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 648</span>
+      <pre class="code"><span class="info file"># File 'lib/selwet.rb', line 673</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_window_title'>window_title</span>
   <span class='cvar'>@@driver</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span>
@@ -3976,7 +4054,7 @@ multiple select необходимо выбрать несколько элем�
 </div>
 
     <div id="footer">
-  Generated on Thu Aug  6 09:53:24 2015 by
+  Generated on Mon Aug 17 16:21:18 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.2.2).
 </div>

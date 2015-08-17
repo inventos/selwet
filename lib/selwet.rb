@@ -299,18 +299,31 @@ def click selector, desc = nil
 #Получить значение атрибута элемента.
 #@param selector [String] css селектор элемента
 #@param attr [String] атрибут
-#@return [String] значение атрибута
+#@param all [Boolean] Указывает, надо ли вернуть все найденные элементы, соответствующие selector. По умлочанию - nil. 
+#@return [String/Array] значение атрибута (при all == false) или набор атрибутов (при all == true)
 #@example
 #       context "Example" do
 #     
 #         should 'TODO somethin' do
 #           link = Unit.get_attr "a.class", 'href'
 #           ...
-      def get_attr selector, attr
+#           all_links = Unit.get_arrt "a.class", 'href', true
+#           ...
+
+      def get_attr selector, attr, all = nil
         raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
         raise(ArgumentValueError, "Invalid value \"#{attr}\" of argument 'attr'") unless attr.class == String
         if check_element(selector)
-          return @@driver.find_element(:css => selector).attribute(attr)
+          unless all
+            return @@driver.find_element(:css => selector).attribute(attr)
+          else
+            elems = @@driver.find_elements(:css => selector)
+            array = []
+            elems.each do |elem|
+              array.push elem.attribute(attr)
+            end
+            return array
+          end
         else
           raise(ElementIsMissingError, "Element #{selector} is missing")
         end
@@ -328,17 +341,29 @@ def click selector, desc = nil
       end
 #Получить тег элемента.
 #@param selector [String] css селектор элемента
-#@return [String] тег
+#@param all [Boolean] Указывает, надо ли вернуть все найденные элементы, соответствующие selector. По умлочанию - nil.
+#@return [String/Array] тег (при all == false) или набор тегов (при all == true)
 #@example
 #       context "Example" do
 #     
 #         should 'TODO somethin' do
 #          tag_name = Unit.get_tag '.element_class'
-#           ...
-      def get_tag selector
+#          ...
+#          all_tags = Unit.get_tag '.element_class', true
+#          ...
+      def get_tag selector, all = nil
         raise(ArgumentValueError, "Invalid value \"#{selector}\" of argument 'selector'") unless selector.class == String
         if check_element(selector)
-          return @@driver.find_element(:css => selector).tag_name
+          unless all
+            return @@driver.find_element(:css => selector).tag_name
+          else
+            elems = @@driver.find_elements(:css => selector)
+            array = []
+            elems.each do |elem|
+              array.push elem.tag_name
+            end
+            return array    
+          end
         else
           raise(ElementIsMissingError, "Element #{selector} is missing")
         end
